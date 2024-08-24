@@ -1,0 +1,24 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://securetoken.google.com/${FIREBASE_PROJECT_ID:copeo-dev}
+          jwk-set-uri: https://www.googleapis.com/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    multipart:
+      max-file-size: 700KB
+      max-request-size: 700KB
+      resolve-lazily: true
+
+api:
+  build:
+    timestamp: @timestamp@
+  versions:
+    api-version: @project.version@
+  page:
+    size: 10
