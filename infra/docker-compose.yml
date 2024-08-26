@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+
+  todo-app-dev-postgres:
+    image: postgres:16.4
+    container_name: todo-app-dev-postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=todo-app-dev-dev-db
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - todo-app-dev-postgres-volume:/var/lib/postgresql/data
+    networks:
+      todo-app-dev-net:
+
+  todo-app-dev-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: todo-app-dev-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+    ports:
+      - "9080:80"
+    depends_on:
+      - todo-app-dev-postgres
+    restart: unless-stopped
+    networks:
+      todo-app-dev-net:
+
+  todo-app-dev-minio:
+    image: bitnami/minio:2024.8.17
+    container_name: todo-app-dev-minio
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - todo-app-dev-minio-volume:/data
+    restart: unless-stopped
+    networks:
+      todo-app-dev-net:
+
+networks:
+  todo-app-dev-net:
+
+volumes:
+  todo-app-dev-postgres-volume:
+  todo-app-dev-minio-volume:
