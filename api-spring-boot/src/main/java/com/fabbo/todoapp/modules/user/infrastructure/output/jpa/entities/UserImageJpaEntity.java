@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,17 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(
-        name = UserImageJpaEntity.TABLE_NAME,
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = {
-                                UserImageJpaEntity.USER_ID_COL,
-                                UserImageJpaEntity.PATH_COL,
-                        }
-                )
-        }
-)
+@Table(name = UserImageJpaEntity.TABLE_NAME)
 public class UserImageJpaEntity extends AuditableJpaEntity {
     public static final String TABLE_NAME = "user_images";
 

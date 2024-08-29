@@ -1,0 +1,20 @@
+CREATE TABLE user_images (
+  id UUID NOT NULL,
+   created_at TIMESTAMP WITHOUT TIME ZONE,
+   created_by VARCHAR(200),
+   updated_at TIMESTAMP WITHOUT TIME ZONE,
+   updated_by VARCHAR(200),
+   user_id VARCHAR(200) NOT NULL,
+   path VARCHAR(500) NOT NULL,
+   url TEXT,
+   url_expiration TIMESTAMP WITHOUT TIME ZONE,
+   CONSTRAINT pk_user_images PRIMARY KEY (id)
+);
+
+ALTER TABLE user_images ADD CONSTRAINT UC_USER_IMAGES_ON_USER_ID
+    UNIQUE (user_id);
+
+ALTER TABLE user_images ADD CONSTRAINT FK_USER_IMAGES_ON_USER
+    FOREIGN KEY (user_id)
+    REFERENCES users (id)
+    ON DELETE CASCADE;

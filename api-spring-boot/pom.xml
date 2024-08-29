@@ -36,7 +36,7 @@
         <mapstruct.version>1.6.0</mapstruct.version>
         <swagger.version>2.6.0</swagger.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <aws-java-sdk-s3.version>1.12.769</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.770</aws-java-sdk-s3.version>
         <!-- Sonar Properties -->
         <sonar.coverage.exclusions>
             src/main/java/com/fabbo/todoapp/commons/**/*,

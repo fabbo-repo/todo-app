@@ -2,6 +2,9 @@
   <configuration default="false" name="todoapp [DEBUG]" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="temurin-21" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="SPRING_PROFILES_ACTIVE" value="dev" />
+    </envs>
     <option name="MAIN_CLASS_NAME" value="com.fabbo.todoapp.TodoappApplication" />
     <module name="todoapp" />
     <extension name="coverage">
