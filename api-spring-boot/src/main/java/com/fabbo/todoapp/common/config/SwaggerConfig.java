@@ -11,7 +11,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({TodoappApplication.NON_TEST_PROFILE})
+@Profile(
+        {
+                TodoappApplication.NON_TEST_PROFILE,
+                TodoappApplication.NON_WEB_TEST_PROFILE,
+                TodoappApplication.NON_CONTAINER_TEST_PROFILE,
+        }
+)
 public class SwaggerConfig {
     private static final String SWAGGER_TITLE = "Todo App API";
 
