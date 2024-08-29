@@ -7,8 +7,8 @@
 
 ~~~
 mvn clean verify sonar:sonar \
--Dsonar.projectKey=homeworkapp \
--Dsonar.projectName='homeworkapp' \
+-Dsonar.projectKey=todo-app \
+-Dsonar.projectName='TodoApp' \
 -Dsonar.host.url=http://localhost:48010 \
 -Dsonar.token=<token>
 ~~~
