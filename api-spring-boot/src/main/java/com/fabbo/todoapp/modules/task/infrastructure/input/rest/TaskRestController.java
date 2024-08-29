@@ -89,16 +89,15 @@ public class TaskRestController {
             final LocalDateTime deadlineGte,
             @RequestParam(defaultValue = "0") @Min(0) final Integer page
     ) {
-        final GetTasksProps getTasksProps = new GetTasksProps(
-                page,
-                new GetUserProps(auditorAware.getTokenOrException())
-        );
-
         final FilterTasksProps filter = new FilterTasksProps();
         filter.setIsFinished(isFinished);
         filter.setDeadlineGte(deadlineGte);
 
-        getTasksProps.setFilter(filter);
+        final GetTasksProps getTasksProps = new GetTasksProps(
+                page,
+                new GetUserProps(auditorAware.getTokenOrException()),
+                filter
+        );
 
         final ApiPage<Task> taskPage = getTasksUseCase.getTasks(
                 getTasksProps

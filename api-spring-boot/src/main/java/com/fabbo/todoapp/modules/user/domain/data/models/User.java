@@ -33,7 +33,7 @@ public class User {
 
     private AuditableData auditableData;
 
-    private static final String EMAIL_VERIFIED_CLAIM = "email_verified";
+    public static final String EMAIL_VERIFIED_CLAIM = "email_verified";
 
     public static final String IMG_PREFIX_PATH = "profile-image";
 
