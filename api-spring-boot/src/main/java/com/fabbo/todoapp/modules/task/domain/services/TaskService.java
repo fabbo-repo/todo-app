@@ -76,26 +76,8 @@ public class TaskService implements GetTaskUseCase, DeleteTaskUseCase,
     public Void updateTask(final UpdateTaskProps updateTaskProps) {
         final Task task = getTask(updateTaskProps);
 
-        if (updateTaskProps.getTitle() != null) {
-            task.setTitle(
-                    updateTaskProps.getTitle()
-            );
-        }
-        if (updateTaskProps.getDescription() != null) {
-            task.setDescription(
-                    updateTaskProps.getDescription()
-            );
-        }
-        if (updateTaskProps.getIsFinished() != null) {
-            task.setFinished(
-                    updateTaskProps.getIsFinished()
-            );
-        }
-        if (updateTaskProps.getDeadline() != null) {
-            task.setDeadline(
-                    updateTaskProps.getDeadline()
-            );
-        }
+        task.update(updateTaskProps);
+
         taskRepository.save(task);
         return null;
     }

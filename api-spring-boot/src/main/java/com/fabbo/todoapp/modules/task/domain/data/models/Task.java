@@ -1,6 +1,7 @@
 package com.fabbo.todoapp.modules.task.domain.data.models;
 
 import com.fabbo.todoapp.common.data.models.AuditableData;
+import com.fabbo.todoapp.modules.task.domain.data.props.UpdateTaskProps;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,5 +37,28 @@ public class Task {
         this.title = title;
         this.isFinished = isFinished;
         this.ownerId = ownerId;
+    }
+
+    public void update(final UpdateTaskProps updateTaskProps) {
+        if (updateTaskProps.getTitle() != null) {
+            setTitle(
+                    updateTaskProps.getTitle()
+            );
+        }
+        if (updateTaskProps.getDescription() != null) {
+            setDescription(
+                    updateTaskProps.getDescription()
+            );
+        }
+        if (updateTaskProps.getIsFinished() != null) {
+            setFinished(
+                    updateTaskProps.getIsFinished()
+            );
+        }
+        if (updateTaskProps.getDeadline() != null) {
+            setDeadline(
+                    updateTaskProps.getDeadline()
+            );
+        }
     }
 }

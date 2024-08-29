@@ -40,7 +40,9 @@
         <testcontainers.version>1.20.1</testcontainers.version>
         <!-- Sonar Properties -->
         <sonar.coverage.exclusions>
-            src/main/java/com/fabbo/todoapp/commons/**/*,
+            src/main/java/com/fabbo/todoapp/common/**/*,
+            src/main/java/com/fabbo/todoapp/**/data/exceptions/*,
+            src/main/java/com/fabbo/todoapp/**/data/props/*,
             src/main/java/com/fabbo/todoapp/TodoappApplication.java
         </sonar.coverage.exclusions>
         <!-- Build Properties -->
