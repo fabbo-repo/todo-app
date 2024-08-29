@@ -162,10 +162,24 @@ public class TestDataUtils {
     public static <T> ApiPage<T> singleApiPage(final List<T> content) {
         return new ApiPage<>(
                 content.size(),
-                1,
+                content.size(),
                 0,
                 0,
                 0,
+                content
+        );
+    }
+
+    public static <T> ApiPage<T> multiLastApiPage(
+            final List<T> content,
+            final int pageIndex
+    ) {
+        return new ApiPage<>(
+                (pageIndex * 10L) + content.size(),
+                content.size(),
+                pageIndex,
+                0,
+                pageIndex,
                 content
         );
     }

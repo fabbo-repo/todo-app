@@ -6,6 +6,7 @@ import com.fabbo.todoapp.common.data.models.AuditableData;
 import com.fabbo.todoapp.common.utils.ImageUtils;
 import com.fabbo.todoapp.modules.user.domain.data.exceptions.AccountEmailNotVerifiedException;
 import com.fabbo.todoapp.modules.user.domain.data.props.UpdateUserProps;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class User {
     private String id;
 
