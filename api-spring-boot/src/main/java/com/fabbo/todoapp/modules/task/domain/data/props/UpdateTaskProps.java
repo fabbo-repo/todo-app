@@ -1,6 +1,7 @@
 package com.fabbo.todoapp.modules.task.domain.data.props;
 
 import com.fabbo.todoapp.modules.user.domain.data.props.GetUserProps;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class UpdateTaskProps extends GetTaskProps {
 
     private String title;
