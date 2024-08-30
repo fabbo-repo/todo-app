@@ -4,6 +4,7 @@ import com.fabbo.todoapp.TodoappApplication;
 import com.fabbo.todoapp.common.audit.AuditorAwareImpl;
 import com.fabbo.todoapp.common.config.MockSpringSecurityFilter;
 import com.fabbo.todoapp.common.config.ReplaceUnderscoresAndCamelCase;
+import com.fabbo.todoapp.common.data.exceptions.ApiPageNotFoundException;
 import com.fabbo.todoapp.common.data.models.ApiPage;
 import com.fabbo.todoapp.modules.task.domain.data.models.Task;
 import com.fabbo.todoapp.modules.task.domain.data.props.GetTasksProps;
@@ -50,9 +51,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 @DisplayNameGeneration(ReplaceUnderscoresAndCamelCase.class)
 @ActiveProfiles(TodoappApplication.WEB_TEST_PROFILE)
-class TaskRestControllerTest {
+class GetTasksRestControllerTest {
     private static final String GET_TASKS_URL = TaskRestController.CONTROLLER_PATH;
-    private static final String POST_TASK_URL = TaskRestController.CONTROLLER_PATH;
 
     private MockMvc mockMvc;
 
@@ -135,6 +135,7 @@ class TaskRestControllerTest {
                                 )
                         )
                         .contentType(MediaType.APPLICATION_JSON)
+                        .principal(jwtAuthenticationToken)
         );
 
         result.andExpect(status().isOk());
@@ -150,4 +151,41 @@ class TaskRestControllerTest {
                 );
     }
 
+    @Test
+    void givenInvalidPageNum_whenGetTasks_shouldReturn404() throws Exception {
+        final GetTasksProps getTasksProps = GetTasksPropsFactory
+                .getTasksProps(jwtAuthenticationToken);
+
+        when(taskService.getTasks(getTasksProps))
+                .thenThrow(ApiPageNotFoundException.class);
+
+        final ResultActions result = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get(GET_TASKS_URL)
+                        .param(
+                                "page",
+                                String.valueOf(getTasksProps.getPageNum())
+                        )
+                        .param(
+                                "deadlineGte",
+                                String.valueOf(
+                                        getTasksProps.getFilter()
+                                                     .getDeadlineGte()
+                                )
+                        )
+                        .param(
+                                "isFinished",
+                                String.valueOf(
+                                        getTasksProps.getFilter()
+                                                     .getIsFinished()
+                                )
+                        )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .principal(jwtAuthenticationToken)
+        );
+
+        result.andExpect(
+                status().isNotFound()
+        );
+    }
 }
