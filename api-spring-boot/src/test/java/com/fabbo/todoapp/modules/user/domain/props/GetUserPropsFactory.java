@@ -3,7 +3,7 @@ package com.fabbo.todoapp.modules.user.domain.props;
 import com.fabbo.todoapp.modules.user.domain.data.props.GetUserProps;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
-import static com.fabbo.todoapp.common.utils.TestDataUtils.randomJwt;
+import static com.fabbo.todoapp.common.utils.TestDataUtils.getMockJwtToken;
 import static com.fabbo.todoapp.common.utils.TestDataUtils.randomText;
 
 public class GetUserPropsFactory {
@@ -23,7 +23,7 @@ public class GetUserPropsFactory {
             final String userId
     ) {
         return new GetUserProps(
-                randomJwt(userId)
+                getMockJwtToken(userId)
         );
     }
 
