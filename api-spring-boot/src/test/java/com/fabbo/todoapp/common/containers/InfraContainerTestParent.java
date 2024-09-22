@@ -10,7 +10,7 @@ import org.testcontainers.junit.jupiter.Container;
 
 import java.util.Random;
 
-public class IntegrationContainerTestParent {
+public class InfraContainerTestParent {
     public static final int MINIO_PORT = randomValidPort();
 
     @Container

@@ -82,6 +82,10 @@ public class TestDataUtils {
         return randomText(randomInt(min, max));
     }
 
+    public static String randomNullableText(final int max) {
+        return randomBool() ? randomText(max) : null;
+    }
+
     public static String randomEmail() {
         return String.format("%s@%s.%s", randomText(15), randomText(6), randomText(3));
     }
