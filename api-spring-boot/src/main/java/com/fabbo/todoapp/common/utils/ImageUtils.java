@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -34,12 +34,12 @@ public class ImageUtils {
             final MultipartFile imageFile
     ) {
         final String formatExtension = MediaType
-                                               .IMAGE_PNG_VALUE
-                                               .equalsIgnoreCase(
-                                                       imageFile.getContentType()
-                                               )
-                                       ? ".png"
-                                       : ".jpeg";
+                .IMAGE_PNG_VALUE
+                .equalsIgnoreCase(
+                        imageFile.getContentType()
+                )
+                ? ".png"
+                : ".jpeg";
         return prefix + "/" + imageId + formatExtension;
     }
 
@@ -51,9 +51,9 @@ public class ImageUtils {
     ) {
         if (
                 apiImage.getUrl() != null
-                && apiImage.getUrlExpiration() != null
-                && apiImage.getUrlExpiration()
-                           .isAfter(LocalDateTime.now())
+                        && apiImage.getUrlExpiration() != null
+                        && apiImage.getUrlExpiration()
+                        .isAfter(LocalDateTime.now())
         ) {
             return;
         }
@@ -63,8 +63,9 @@ public class ImageUtils {
                 .plusHours(signHourDuration);
         final URL imageUrl = objectStorageClient.getObjectUrl(
                 apiImage.getPath(),
-                signHourDuration,
-                TimeUnit.HOURS
+                Duration.ofHours(
+                        signHourDuration
+                )
         );
         if (imageUrl != null) {
             apiImage.setImageUrl(

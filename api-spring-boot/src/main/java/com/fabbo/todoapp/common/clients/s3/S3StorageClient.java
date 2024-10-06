@@ -1,18 +1,22 @@
 package com.fabbo.todoapp.common.clients.s3;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.fabbo.todoapp.common.clients.ObjectStorageClient;
 import com.fabbo.todoapp.common.config.S3Config;
 import com.fabbo.todoapp.common.data.exceptions.RuntimeIOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Exception;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
@@ -26,14 +30,17 @@ public class S3StorageClient implements ObjectStorageClient {
             final String objectId
     ) {
         try {
-            final ObjectMetadata meta = new ObjectMetadata();
-            meta.setContentLength(objectStream.available());
-            s3Config.getAmazonS3()
+            final PutObjectRequest putObjectRequest = PutObjectRequest
+                    .builder()
+                    .key(objectId)
+                    .build();
+            s3Config.getS3Client()
                     .putObject(
-                            s3Config.bucketName,
-                            objectId,
-                            objectStream,
-                            meta
+                            putObjectRequest,
+                            RequestBody.fromInputStream(
+                                    objectStream,
+                                    objectStream.available()
+                            )
                     );
         } catch (final IOException e) {
             throw new RuntimeIOException(e);
@@ -43,53 +50,53 @@ public class S3StorageClient implements ObjectStorageClient {
     @Override
     public URL getObjectUrl(
             final String objectId,
-            final int signDuration,
-            final TimeUnit signDurationTimeUnit
+            final Duration signDuration
     ) {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(
-                convertTimeUnitToCalendarField(
-                        signDurationTimeUnit
-                ),
-                signDuration
-        );
-        return s3Config
-                .getAmazonS3()
-                .generatePresignedUrl(
-                        s3Config.bucketName,
-                        objectId,
-                        calendar.getTime()
+        final GetObjectPresignRequest getObjectPresignRequest = GetObjectPresignRequest
+                .builder()
+                .getObjectRequest(
+                        builder ->
+                                builder.key(objectId)
+                )
+                .signatureDuration(signDuration)
+                .build();
+
+        final PresignedGetObjectRequest presignedGetObjectRequest = s3Config
+                .getS3Presigner()
+                .presignGetObject(
+                        getObjectPresignRequest
                 );
+
+        return presignedGetObjectRequest
+                .url();
     }
 
     @Override
     public void deleteObject(final String objectId) {
-        s3Config.getAmazonS3()
+        s3Config.getS3Client()
                 .deleteObject(
-                        s3Config.bucketName,
-                        objectId
+                        DeleteObjectRequest
+                                .builder()
+                                .key(objectId)
+                                .build()
                 );
     }
 
     @Override
     public boolean existsObject(final String objectId) {
-        return s3Config.getAmazonS3()
-                       .doesObjectExist(
-                               s3Config.bucketName,
-                               objectId
-                       );
-    }
-
-    public static int convertTimeUnitToCalendarField(
-            final TimeUnit timeUnit
-    ) {
-        return switch (timeUnit) {
-            case SECONDS -> Calendar.SECOND;
-            case MINUTES -> Calendar.MINUTE;
-            case HOURS -> Calendar.HOUR;
-            case DAYS -> Calendar.DAY_OF_YEAR;
-            default -> throw new IllegalArgumentException();
-        };
+        final GetObjectRequest getObjectRequest = GetObjectRequest
+                .builder()
+                .key(objectId)
+                .build();
+        try {
+            s3Config
+                    .getS3Client()
+                    .getObject(
+                            getObjectRequest
+                    );
+            return true;
+        } catch (final S3Exception s3Exception) {
+            return false;
+        }
     }
 }

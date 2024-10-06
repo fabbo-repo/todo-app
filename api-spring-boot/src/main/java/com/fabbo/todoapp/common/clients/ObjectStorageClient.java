@@ -2,7 +2,7 @@ package com.fabbo.todoapp.common.clients;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public interface ObjectStorageClient {
     void putObject(
@@ -12,8 +12,7 @@ public interface ObjectStorageClient {
 
     URL getObjectUrl(
             String objectId,
-            int signDuration,
-            TimeUnit signDurationTimeUnit
+            Duration signDuration
     );
 
     void deleteObject(String objectId);

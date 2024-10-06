@@ -36,7 +36,7 @@
         <mapstruct.version>1.6.0</mapstruct.version>
         <swagger.version>2.6.0</swagger.version>
         <jacoco.version>0.8.12</jacoco.version>
-        <aws-java-sdk-s3.version>1.12.770</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>2.28.16</aws-java-sdk-s3.version>
         <testcontainers.version>1.20.1</testcontainers.version>
         <spring-security-test.version>6.3.3</spring-security-test.version>
         <!-- Sonar Properties -->
@@ -145,11 +145,33 @@
 
         <!-- Client Service -->
 
-        <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+        <!-- https://mvnrepository.com/artifact/software.amazon.awssdk/s3 -->
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-s3</artifactId>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
             <version>${aws-java-sdk-s3.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>netty-nio-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>apache-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+            <version>${aws-java-sdk-s3.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Testing -->

@@ -1,15 +1,18 @@
 package com.fabbo.todoapp.common.config;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.endpoints.Endpoint;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+
+import java.net.URI;
+import java.util.concurrent.CompletableFuture;
 
 @Configuration
 @Getter
@@ -30,34 +33,47 @@ public class S3Config {
     @Value("${api.s3.secret-key}")
     private String secretKey;
 
-    private AmazonS3 amazonS3;
+    private S3Client s3Client;
+
+    private S3Presigner s3Presigner;
 
     @PostConstruct
     public void setup() {
-        amazonS3 = AmazonS3ClientBuilder
-                .standard()
-                .enablePathStyleAccess()
-                .withEndpointConfiguration(getS3Endpoint())
-                .withCredentials(
-                        new AWSStaticCredentialsProvider(
-                                getS3Credentials()
-                        )
+        s3Client = S3Client
+                .builder()
+                .forcePathStyle(true)
+                .endpointProvider(
+                        endpointParams -> CompletableFuture
+                                .completedFuture(
+                                        getS3Endpoint()
+                                )
                 )
+                .credentialsProvider(
+                        getS3CredentialsProvider()
+                )
+                .region(Region.of(regionName))
+                .build();
+        s3Presigner = S3Presigner
+                .builder()
+                .s3Client(s3Client)
+                .region(Region.of(regionName))
                 .build();
     }
 
     @SuppressWarnings({"squid:S6263"})
-    public AWSCredentials getS3Credentials() {
-        return new BasicAWSCredentials(
+    public AwsCredentialsProvider getS3CredentialsProvider() {
+        return () -> AwsBasicCredentials.create(
                 accessKey,
                 secretKey
         );
     }
 
-    private AwsClientBuilder.EndpointConfiguration getS3Endpoint() {
-        return new AwsClientBuilder.EndpointConfiguration(
-                url,
-                regionName
-        );
+    private Endpoint getS3Endpoint() {
+        return Endpoint
+                .builder()
+                .url(URI.create(
+                        url + "/" + bucketName
+                ))
+                .build();
     }
 }
