@@ -6,14 +6,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component
 public class AuditorAwareImpl implements AuditorAware<String> {
 
-    public Optional<JwtAuthenticationToken> getToken() {
+    public static Optional<JwtAuthenticationToken> getToken() {
         final Authentication authentication = SecurityContextHolder
                 .getContext()
                 .getAuthentication();
@@ -23,14 +21,14 @@ public class AuditorAwareImpl implements AuditorAware<String> {
         return Optional.of((JwtAuthenticationToken) authentication);
     }
 
-    public JwtAuthenticationToken getTokenOrException() {
+    public static JwtAuthenticationToken getTokenOrException() {
         return getToken()
                 .orElseThrow(
                         UnauthorizedException::new
                 );
     }
 
-    public String getAuthIdOrException() {
+    public static String getAuthIdOrException() {
         return getToken()
                 .orElseThrow(
                         UnauthorizedException::new

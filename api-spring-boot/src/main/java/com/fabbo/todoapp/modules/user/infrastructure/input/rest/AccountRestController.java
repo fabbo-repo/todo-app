@@ -18,13 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -41,8 +35,6 @@ public class AccountRestController {
     @SuppressWarnings("squid:S1075")
     public static final String POST_ACCOUNT_IMAGE_SUB_PATH = "/image";
 
-    private final AuditorAwareImpl auditorAware;
-
     private final GetUserUseCase getUserUseCase;
 
     private final UpdateUserUseCase updateUserUseCase;
@@ -51,7 +43,8 @@ public class AccountRestController {
 
     @GetMapping
     public AccountRestResponse getAccount() {
-        final JwtAuthenticationToken token = auditorAware.getTokenOrException();
+        final JwtAuthenticationToken token = AuditorAwareImpl
+                .getTokenOrException();
         return ACCOUNT_REST_MAPPER.userToResponse(
                 getUserUseCase.getUser(
                         new GetUserProps(token)
@@ -63,7 +56,8 @@ public class AccountRestController {
     public ResponseEntity<Void> patchAccount(
             @Valid @RequestBody final AccountPatchRequest request
     ) {
-        final JwtAuthenticationToken token = auditorAware.getTokenOrException();
+        final JwtAuthenticationToken token = AuditorAwareImpl
+                .getTokenOrException();
         final UpdateUserProps updateUserDto = new UpdateUserProps(token);
         updateUserDto.setUsername(request.getUsername());
         updateUserDto.setDescription(request.getDescription());
@@ -81,7 +75,8 @@ public class AccountRestController {
             @MaxSizeFile
             @RequestPart final MultipartFile image
     ) {
-        final JwtAuthenticationToken token = auditorAware.getTokenOrException();
+        final JwtAuthenticationToken token = AuditorAwareImpl
+                .getTokenOrException();
         final UpdateUserProps updateUserDto = new UpdateUserProps(token);
         updateUserDto.setImageFile(image);
         updateUserUseCase.updateUser(

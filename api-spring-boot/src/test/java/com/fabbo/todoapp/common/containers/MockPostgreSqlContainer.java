@@ -3,9 +3,9 @@ package com.fabbo.todoapp.common.containers;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 public class MockPostgreSqlContainer extends PostgreSQLContainer<MockPostgreSqlContainer> {
-    private static final String IMAGE_VERSION = "postgres:14.1-alpine";
+    private static final String IMAGE_VERSION = "postgres:16.4";
 
-    private static final String POSTGRES_DB_NAME = "bluecar-test-db";
+    private static final String POSTGRES_DB_NAME = "test-db";
     private static final String POSTGRES_DB_USER = "postgres";
     private static final String POSTGRES_DB_PASSWORD = "password";
 

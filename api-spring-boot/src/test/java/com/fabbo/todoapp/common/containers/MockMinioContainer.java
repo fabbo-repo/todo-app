@@ -7,7 +7,7 @@ import com.github.dockerjava.api.model.Ports;
 import org.testcontainers.containers.GenericContainer;
 
 public class MockMinioContainer extends GenericContainer<MockMinioContainer> {
-    private static final String IMAGE_VERSION = "minio/minio:latest";
+    private static final String IMAGE_VERSION = "bitnami/minio:2024.8.17";
 
     private static final int MINIO_BIND_PORT = 9000;
     private static final int MINIO_EXPOSED_PORT = 9000;
@@ -27,7 +27,6 @@ public class MockMinioContainer extends GenericContainer<MockMinioContainer> {
                     .withExposedPorts(MINIO_EXPOSED_PORT)
                     .withEnv("MINIO_ROOT_USER", MINIO_ACCESS_KEY)
                     .withEnv("MINIO_ROOT_PASSWORD", MINIO_SECRET_KEY)
-                    .withCommand("server", "/data")
                     .withCreateContainerCmdModifier(
                             cmd -> cmd.withHostConfig(
                                     new HostConfig()

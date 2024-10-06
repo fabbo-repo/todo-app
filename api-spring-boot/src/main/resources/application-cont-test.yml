@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test-db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: password
+
+api:
+  keycloak:
+    server-url: http://localhost:7080
+    realm-name: test-realm
+    client-id: test-client
+    secret: test-secret
+  s3:
+    bucket-name: bucket
+    region: us-west-2
+    url: http://localhost:9000
+    access-key: accessKey
+    secret-key: secretKey
