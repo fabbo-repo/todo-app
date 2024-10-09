@@ -17,13 +17,15 @@ public class UserImageClientImpl implements UserImageClient {
     private final UserImageRepository userImageRepository;
 
     @Override
-    public void uploadImageContent(User user, MultipartFile image) {
+    public void uploadImageContent(
+            final ApiImage apiImage,
+            final MultipartFile imageFile
+    ) {
         objectStorageClient.putObject(
                 ImageUtils.getImageStreamWithoutMetadata(
-                        image
+                        imageFile
                 ),
-                user.getImage()
-                        .getPath()
+                apiImage.getPath()
         );
     }
 
@@ -36,7 +38,7 @@ public class UserImageClientImpl implements UserImageClient {
                                 apiImage -> {
                                     ImageUtils.updateImageWithUrl(
                                             objectStorageClient,
-                                            user.getImage(),
+                                            apiImage,
                                             1,
                                             newApiImage -> {
                                                 userImageRepository.save(

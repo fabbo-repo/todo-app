@@ -5,7 +5,7 @@ import com.fabbo.todoapp.modules.user.domain.data.models.User;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface UserImageClient {
-    void uploadImageContent(final User user, MultipartFile image);
+    void uploadImageContent(final ApiImage apiImage, MultipartFile imageFile);
 
     void loadUserImageUrl(final User user);
 

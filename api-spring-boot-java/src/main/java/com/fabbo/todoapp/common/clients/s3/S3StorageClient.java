@@ -33,6 +33,7 @@ public class S3StorageClient implements ObjectStorageClient {
             final PutObjectRequest putObjectRequest = PutObjectRequest
                     .builder()
                     .key(objectId)
+                    .bucket(s3Config.getBucketName())
                     .build();
             s3Config.getS3Client()
                     .putObject(
@@ -57,6 +58,7 @@ public class S3StorageClient implements ObjectStorageClient {
                 .getObjectRequest(
                         builder ->
                                 builder.key(objectId)
+                                        .bucket(s3Config.getBucketName())
                 )
                 .signatureDuration(signDuration)
                 .build();
@@ -78,6 +80,7 @@ public class S3StorageClient implements ObjectStorageClient {
                         DeleteObjectRequest
                                 .builder()
                                 .key(objectId)
+                                .bucket(s3Config.getBucketName())
                                 .build()
                 );
     }
@@ -87,6 +90,7 @@ public class S3StorageClient implements ObjectStorageClient {
         final GetObjectRequest getObjectRequest = GetObjectRequest
                 .builder()
                 .key(objectId)
+                .bucket(s3Config.getBucketName())
                 .build();
         try {
             s3Config

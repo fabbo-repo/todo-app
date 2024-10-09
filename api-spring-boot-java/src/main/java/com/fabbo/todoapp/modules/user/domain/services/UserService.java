@@ -76,7 +76,7 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
                     storedUser.getId()
             );
             userImageClient.uploadImageContent(
-                    storedUser,
+                    storedUser.getImage(),
                     updateUserDto.getImageFile()
             );
         }

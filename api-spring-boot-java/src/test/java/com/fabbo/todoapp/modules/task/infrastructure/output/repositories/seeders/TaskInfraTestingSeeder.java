@@ -4,7 +4,7 @@ import com.fabbo.todoapp.TodoappApplication;
 import com.fabbo.todoapp.modules.task.infrastructure.output.repositories.jpa.entities.TaskJpaEntityFactory;
 import com.fabbo.todoapp.modules.task.infrastructure.output.repositories.jpa.entities.TaskJpaEntity;
 import com.fabbo.todoapp.modules.task.infrastructure.output.repositories.jpa.repositories.TaskJpaRepository;
-import com.fabbo.todoapp.modules.user.infrastructure.seeders.UserInfraTestingSeeder;
+import com.fabbo.todoapp.modules.user.infrastructure.output.seeders.UserInfraTestingSeeder;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

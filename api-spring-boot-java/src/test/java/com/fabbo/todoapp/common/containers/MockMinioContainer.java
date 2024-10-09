@@ -15,6 +15,8 @@ public class MockMinioContainer extends GenericContainer<MockMinioContainer> {
     private static final String MINIO_ACCESS_KEY = "accessKey";
     private static final String MINIO_SECRET_KEY = "secretKey";
 
+    private static final String MINIO_DEFAULT_BUCKET = "bucket";
+
     private static MockMinioContainer container;
 
     private MockMinioContainer() {
@@ -27,6 +29,7 @@ public class MockMinioContainer extends GenericContainer<MockMinioContainer> {
                     .withExposedPorts(MINIO_EXPOSED_PORT)
                     .withEnv("MINIO_ROOT_USER", MINIO_ACCESS_KEY)
                     .withEnv("MINIO_ROOT_PASSWORD", MINIO_SECRET_KEY)
+                    .withEnv("MINIO_DEFAULT_BUCKETS", MINIO_DEFAULT_BUCKET)
                     .withCreateContainerCmdModifier(
                             cmd -> cmd.withHostConfig(
                                     new HostConfig()
