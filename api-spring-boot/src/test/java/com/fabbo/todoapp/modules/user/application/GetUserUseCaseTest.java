@@ -1,7 +1,6 @@
 package com.fabbo.todoapp.modules.user.application;
 
 import com.fabbo.todoapp.TodoappApplication;
-import com.fabbo.todoapp.common.clients.ObjectStorageClient;
 import com.fabbo.todoapp.common.config.ReplaceUnderscoresAndCamelCase;
 import com.fabbo.todoapp.modules.user.application.repositories.UserImageRepository;
 import com.fabbo.todoapp.modules.user.application.repositories.UserRepository;
@@ -9,28 +8,26 @@ import com.fabbo.todoapp.modules.user.domain.data.models.User;
 import com.fabbo.todoapp.modules.user.domain.data.props.GetUserProps;
 import com.fabbo.todoapp.modules.user.domain.props.GetUserPropsFactory;
 import com.fabbo.todoapp.modules.user.domain.services.UserService;
+import com.fabbo.todoapp.modules.user.infrastructure.output.clients.UserImageClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static com.fabbo.todoapp.common.utils.TestDataUtils.randomText;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayNameGeneration(ReplaceUnderscoresAndCamelCase.class)
-@RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles(TodoappApplication.TEST_PROFILE)
 class GetUserUseCaseTest {
 
@@ -41,7 +38,7 @@ class GetUserUseCaseTest {
     private UserImageRepository userImageRepository;
 
     @Mock
-    private ObjectStorageClient objectStorageClient;
+    private UserImageClient userImageClient;
 
     @InjectMocks
     private UserService getUserUseCase;

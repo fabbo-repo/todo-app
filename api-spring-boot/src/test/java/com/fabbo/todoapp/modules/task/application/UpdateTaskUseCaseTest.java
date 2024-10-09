@@ -3,12 +3,12 @@ package com.fabbo.todoapp.modules.task.application;
 import com.fabbo.todoapp.TodoappApplication;
 import com.fabbo.todoapp.common.config.ReplaceUnderscoresAndCamelCase;
 import com.fabbo.todoapp.modules.task.application.repositories.TaskRepository;
+import com.fabbo.todoapp.modules.task.domain.data.exceptions.TaskNotFoundException;
 import com.fabbo.todoapp.modules.task.domain.data.models.Task;
-import com.fabbo.todoapp.modules.task.domain.data.props.CreateTaskProps;
-import com.fabbo.todoapp.modules.task.domain.props.CreateTaskPropsFactory;
+import com.fabbo.todoapp.modules.task.domain.data.props.UpdateTaskProps;
+import com.fabbo.todoapp.modules.task.domain.props.UpdateTaskPropsFactory;
 import com.fabbo.todoapp.modules.task.domain.services.TaskService;
 import com.fabbo.todoapp.modules.user.application.usecases.GetUserUseCase;
-import com.fabbo.todoapp.modules.user.domain.data.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
@@ -19,15 +19,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Optional;
+
 import static com.fabbo.todoapp.common.utils.TestDataUtils.randomText;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayNameGeneration(ReplaceUnderscoresAndCamelCase.class)
 @ActiveProfiles(TodoappApplication.TEST_PROFILE)
-class CreateTaskUseCaseTest {
+class UpdateTaskUseCaseTest {
 
     @Mock
     private TaskRepository taskRepository;
@@ -36,7 +39,7 @@ class CreateTaskUseCaseTest {
     private GetUserUseCase getUserUseCase;
 
     @InjectMocks
-    private TaskService createTaskUseCase;
+    private TaskService updateTaskUseCase;
 
     private static final ArgumentCaptor<Task> TASK_ARGUMENT_CAPTOR = ArgumentCaptor
             .forClass(Task.class);
@@ -49,39 +52,33 @@ class CreateTaskUseCaseTest {
     }
 
     @Test
-    void givenValidProps_whenCreateTask_shouldStoreValidTask() {
-        final CreateTaskProps createTaskProps = CreateTaskPropsFactory
-                .createTaskProps(userId);
+    void givenValidProps_whenUpdateTask_shouldSaveValidTask() {
+        final UpdateTaskProps updateTaskProps = UpdateTaskPropsFactory
+                .updateTaskProps(userId);
 
-        final Task expectedTask = new Task(
-                createTaskProps.getTitle(),
+        final Task storedTask = new Task(
+                "Test",
                 true,
                 userId
         );
-        expectedTask.setDescription(
-                createTaskProps.getDescription()
-        );
-        expectedTask.setDeadline(
-                createTaskProps.getDeadline()
-        );
 
-        when(
-                getUserUseCase
-                        .getUser(
-                                createTaskProps
-                                        .getGetUserProps()
-                        )
-        ).thenReturn(
-                new User(userId)
+        final Task expectedTask = new Task(
+                updateTaskProps.getTitle(),
+                true,
+                userId
         );
+        expectedTask.setDescription(updateTaskProps.getDescription());
+        expectedTask.setFinished(updateTaskProps.getIsFinished());
+        expectedTask.setDeadline(updateTaskProps.getDeadline());
+
         when(
                 taskRepository
-                        .save(expectedTask)
+                        .findById(updateTaskProps.getTaskId())
         ).thenReturn(
-                expectedTask
+                Optional.of(storedTask)
         );
 
-        final Task resultTask = createTaskUseCase.createTask(createTaskProps);
+        updateTaskUseCase.updateTask(updateTaskProps);
 
         verify(taskRepository)
                 .save(
@@ -89,6 +86,25 @@ class CreateTaskUseCaseTest {
                 );
 
         assertEquals(expectedTask, TASK_ARGUMENT_CAPTOR.getValue());
-        assertEquals(expectedTask, resultTask);
+    }
+
+    @Test
+    void storedNoTask_whenUpdateTask_shouldThrowException() {
+        final UpdateTaskProps updateTaskProps = UpdateTaskPropsFactory
+                .updateTaskProps(userId);
+
+        when(
+                taskRepository
+                        .findById(
+                                updateTaskProps.getTaskId()
+                        )
+        ).thenThrow(TaskNotFoundException.class);
+
+        assertThrows(
+                TaskNotFoundException.class,
+                () ->
+                        updateTaskUseCase
+                                .updateTask(updateTaskProps)
+        );
     }
 }

@@ -14,10 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -25,16 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.fabbo.todoapp.common.utils.TestDataUtils.randomBool;
-import static com.fabbo.todoapp.common.utils.TestDataUtils.randomText;
-import static com.fabbo.todoapp.common.utils.TestDataUtils.singleApiPage;
+import static com.fabbo.todoapp.common.utils.TestDataUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayNameGeneration(ReplaceUnderscoresAndCamelCase.class)
-@RunWith(MockitoJUnitRunner.class)
 @ActiveProfiles(TodoappApplication.TEST_PROFILE)
 class GetTasksUseCaseTest {
 

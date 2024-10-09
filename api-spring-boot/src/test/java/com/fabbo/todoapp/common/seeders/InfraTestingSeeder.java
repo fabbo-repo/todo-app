@@ -1,9 +1,9 @@
 package com.fabbo.todoapp.common.seeders;
 
 import com.fabbo.todoapp.TodoappApplication;
-import com.fabbo.todoapp.modules.task.infrasructure.output.persistence.seeders.TaskInfraTestingSeeder;
-import com.fabbo.todoapp.modules.user.infrasructure.seeders.UserInfraTestingSeeder;
-import com.fabbo.todoapp.modules.user.infrastructure.output.jpa.entities.UserJpaEntity;
+import com.fabbo.todoapp.modules.task.infrastructure.output.repositories.seeders.TaskInfraTestingSeeder;
+import com.fabbo.todoapp.modules.user.infrastructure.seeders.UserInfraTestingSeeder;
+import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,5 @@
 package com.fabbo.todoapp.modules.user.domain.services;
 
-import com.fabbo.todoapp.common.clients.ObjectStorageClient;
-import com.fabbo.todoapp.common.utils.ImageUtils;
 import com.fabbo.todoapp.modules.user.application.repositories.UserImageRepository;
 import com.fabbo.todoapp.modules.user.application.repositories.UserRepository;
 import com.fabbo.todoapp.modules.user.application.usecases.GetUserUseCase;
@@ -10,6 +8,7 @@ import com.fabbo.todoapp.modules.user.domain.data.exceptions.UserNotFoundExcepti
 import com.fabbo.todoapp.modules.user.domain.data.models.User;
 import com.fabbo.todoapp.modules.user.domain.data.props.GetUserProps;
 import com.fabbo.todoapp.modules.user.domain.data.props.UpdateUserProps;
+import com.fabbo.todoapp.modules.user.infrastructure.output.clients.UserImageClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
 
     private final UserImageRepository userImageRepository;
 
-    private final ObjectStorageClient objectStorageClient;
+    private final UserImageClient userImageClient;
 
     @Override
     public User getUser(final GetUserProps getUserProps) {
@@ -37,16 +36,16 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
         final Optional<User> optionalStoredUser = userRepository
                 .findById(getUserProps.getId());
         final User storedUser = getUserProps.isCreateIfNotExists() ?
-                                optionalStoredUser
-                                        .orElseGet(
-                                                () ->
-                                                        userRepository
-                                                                .save(new User(getUserProps.getToken()))
-                                        ) :
-                                optionalStoredUser.orElseThrow(
-                                        UserNotFoundException::new
-                                );
-        loadUserImageUrl(storedUser);
+                optionalStoredUser
+                        .orElseGet(
+                                () ->
+                                        userRepository
+                                                .save(new User(getUserProps.getToken()))
+                        ) :
+                optionalStoredUser.orElseThrow(
+                        UserNotFoundException::new
+                );
+        userImageClient.loadUserImageUrl(storedUser);
 
         return storedUser;
     }
@@ -59,11 +58,11 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
         // service if a new image is being uploaded
         if (
                 updateUserDto.getImageFile() != null
-                && storedUser.getImage() != null
-                && storedUser.getImage().getPath() != null
+                        && storedUser.getImage() != null
+                        && storedUser.getImage().getPath() != null
         ) {
-            objectStorageClient.deleteObject(
-                    storedUser.getImage().getPath()
+            userImageClient.deleteImageContent(
+                    storedUser.getImage()
             );
         }
 
@@ -76,40 +75,12 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
                     storedUser.getImage(),
                     storedUser.getId()
             );
-            objectStorageClient.putObject(
-                    ImageUtils.getImageStreamWithoutMetadata(
-                            updateUserDto.getImageFile()
-                    ),
-                    storedUser.getImage()
-                              .getPath()
+            userImageClient.uploadImageContent(
+                    storedUser,
+                    updateUserDto.getImageFile()
             );
         }
 
         return null;
-    }
-
-    private void loadUserImageUrl(final User user) {
-        user.setImage(
-                userImageRepository
-                        .findByUserId(user.getId())
-                        .map(
-                                apiImage -> {
-                                    ImageUtils.updateImageWithUrl(
-                                            objectStorageClient,
-                                            user.getImage(),
-                                            1,
-                                            newApiImage -> {
-                                                userImageRepository.save(
-                                                        newApiImage,
-                                                        user.getId()
-                                                );
-                                                return null;
-                                            }
-                                    );
-                                    return apiImage;
-                                }
-                        )
-                        .orElse(null)
-        );
     }
 }

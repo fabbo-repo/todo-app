@@ -7,6 +7,14 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import static com.fabbo.todoapp.common.utils.TestDataUtils.randomUuid;
 
 public class GetTaskPropsFactory {
+    public static GetTaskProps getTaskProps(
+            final String userId
+    ) {
+        return new GetTaskProps(
+                new GetUserProps(userId),
+                randomUuid()
+        );
+    }
 
     public static GetTaskProps getTaskProps(
             final JwtAuthenticationToken jwt
