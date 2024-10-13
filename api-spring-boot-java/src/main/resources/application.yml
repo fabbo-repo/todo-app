@@ -3,7 +3,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://securetoken.google.com/${FIREBASE_PROJECT_ID:copeo-dev}
+          issuer-uri: https://securetoken.google.com/${FIREBASE_PROJECT_ID:todo-app-dev}
           jwk-set-uri: https://www.googleapis.com/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com
 
 server:
