@@ -4,6 +4,7 @@ import com.fabbo.todoapp.TodoappApplication;
 import com.fabbo.todoapp.common.annotations.EnabledIfDocker;
 import com.fabbo.todoapp.common.clients.ObjectStorageClient;
 import com.fabbo.todoapp.common.config.ReplaceUnderscoresAndCamelCase;
+import com.fabbo.todoapp.common.config.S3Config;
 import com.fabbo.todoapp.common.containers.InfraContainerTestParent;
 import com.fabbo.todoapp.common.data.models.ApiImage;
 import com.fabbo.todoapp.modules.user.application.repositories.UserImageRepository;
@@ -49,6 +50,9 @@ class UserImageClientTest extends InfraContainerTestParent {
 
     @Autowired
     private UserInfraTestingSeeder userInfraTestingSeeder;
+
+    @Autowired
+    private S3Config s3Config;
 
     private static final UserJpaMapper USER_JPA_MAPPER = UserJpaMapper.INSTANCE;
 
@@ -118,7 +122,8 @@ class UserImageClientTest extends InfraContainerTestParent {
 
         final URL imageUrl = objectStorageClient.getObjectUrl(
                 apiImage.getPath(),
-                Duration.ofMinutes(1)
+                Duration.ofMinutes(1),
+                s3Config.getBucketName()
         );
 
         assertNotNull(imageUrl);

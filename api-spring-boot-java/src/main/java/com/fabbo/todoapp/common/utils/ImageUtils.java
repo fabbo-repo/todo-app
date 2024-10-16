@@ -45,9 +45,10 @@ public class ImageUtils {
 
     public static void updateImageWithUrl(
             final ObjectStorageClient objectStorageClient,
+            final String bucketName,
             final ApiImage apiImage,
             final int signHourDuration,
-            Function<ApiImage, Void> onImageUpdated
+            final Function<ApiImage, Void> onImageUpdated
     ) {
         if (
                 apiImage.getUrl() != null
@@ -65,7 +66,8 @@ public class ImageUtils {
                 apiImage.getPath(),
                 Duration.ofHours(
                         signHourDuration
-                )
+                ),
+                bucketName
         );
         if (imageUrl != null) {
             apiImage.setImageUrl(

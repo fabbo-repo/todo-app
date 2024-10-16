@@ -6,11 +6,6 @@ spring:
     password: password
 
 api:
-  keycloak:
-    server-url: http://localhost:7080
-    realm-name: test-realm
-    client-id: test-client
-    secret: test-secret
   s3:
     bucket-name: bucket
     region: us-west-2

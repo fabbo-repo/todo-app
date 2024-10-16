@@ -7,15 +7,23 @@ import java.time.Duration;
 public interface ObjectStorageClient {
     void putObject(
             InputStream objectStream,
-            String objectId
+            String objectId,
+            String bucketName
     );
 
     URL getObjectUrl(
             String objectId,
-            Duration signDuration
+            Duration signDuration,
+            String bucketName
     );
 
-    void deleteObject(String objectId);
+    void deleteObject(
+            String objectId,
+            String bucketName
+    );
 
-    boolean existsObject(String objectId);
+    boolean existsObject(
+            String objectId,
+            String bucketName
+    );
 }
