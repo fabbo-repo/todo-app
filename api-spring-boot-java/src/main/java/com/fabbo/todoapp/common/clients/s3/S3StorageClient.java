@@ -27,12 +27,14 @@ public class S3StorageClient implements ObjectStorageClient {
     @Override
     public void putObject(
             final InputStream objectStream,
-            final String objectId
+            final String objectId,
+            final String bucketName
     ) {
         try {
             final PutObjectRequest putObjectRequest = PutObjectRequest
                     .builder()
                     .key(objectId)
+                    .bucket(bucketName)
                     .build();
             s3Config.getS3Client()
                     .putObject(
@@ -50,13 +52,15 @@ public class S3StorageClient implements ObjectStorageClient {
     @Override
     public URL getObjectUrl(
             final String objectId,
-            final Duration signDuration
+            final Duration signDuration,
+            final String bucketName
     ) {
         final GetObjectPresignRequest getObjectPresignRequest = GetObjectPresignRequest
                 .builder()
                 .getObjectRequest(
                         builder ->
                                 builder.key(objectId)
+                                       .bucket(bucketName)
                 )
                 .signatureDuration(signDuration)
                 .build();
@@ -72,21 +76,29 @@ public class S3StorageClient implements ObjectStorageClient {
     }
 
     @Override
-    public void deleteObject(final String objectId) {
+    public void deleteObject(
+            final String objectId,
+            final String bucketName
+    ) {
         s3Config.getS3Client()
                 .deleteObject(
                         DeleteObjectRequest
                                 .builder()
                                 .key(objectId)
+                                .bucket(bucketName)
                                 .build()
                 );
     }
 
     @Override
-    public boolean existsObject(final String objectId) {
+    public boolean existsObject(
+            final String objectId,
+            final String bucketName
+    ) {
         final GetObjectRequest getObjectRequest = GetObjectRequest
                 .builder()
                 .key(objectId)
+                .bucket(bucketName)
                 .build();
         try {
             s3Config
