@@ -1,4 +1,4 @@
-package com.fabbo.todoapp.modules.user.infrastructure.persistence.entities;
+package com.fabbo.todoapp.modules.user.infrastructure.output.repositories.entities;
 
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
 import lombok.AccessLevel;

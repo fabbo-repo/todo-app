@@ -1,6 +1,7 @@
 package com.fabbo.todoapp.modules.user.infrastructure.output.clients;
 
 import com.fabbo.todoapp.common.clients.ObjectStorageClient;
+import com.fabbo.todoapp.common.config.S3Config;
 import com.fabbo.todoapp.common.data.models.ApiImage;
 import com.fabbo.todoapp.common.utils.ImageUtils;
 import com.fabbo.todoapp.modules.user.application.repositories.UserImageRepository;
@@ -16,14 +17,19 @@ public class UserImageClientImpl implements UserImageClient {
 
     private final UserImageRepository userImageRepository;
 
+    private final S3Config s3Config;
+
     @Override
-    public void uploadImageContent(User user, MultipartFile image) {
+    public void uploadImageContent(
+            final ApiImage apiImage,
+            final MultipartFile image
+    ) {
         objectStorageClient.putObject(
                 ImageUtils.getImageStreamWithoutMetadata(
                         image
                 ),
-                user.getImage()
-                        .getPath()
+                apiImage.getPath(),
+                s3Config.getBucketName()
         );
     }
 
@@ -36,7 +42,8 @@ public class UserImageClientImpl implements UserImageClient {
                                 apiImage -> {
                                     ImageUtils.updateImageWithUrl(
                                             objectStorageClient,
-                                            user.getImage(),
+                                            s3Config.getBucketName(),
+                                            apiImage,
                                             1,
                                             newApiImage -> {
                                                 userImageRepository.save(
@@ -56,7 +63,8 @@ public class UserImageClientImpl implements UserImageClient {
     @Override
     public void deleteImageContent(final ApiImage image) {
         objectStorageClient.deleteObject(
-                image.getPath()
+                image.getPath(),
+                s3Config.getBucketName()
         );
     }
 }

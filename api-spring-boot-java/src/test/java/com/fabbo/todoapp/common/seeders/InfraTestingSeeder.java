@@ -2,7 +2,7 @@ package com.fabbo.todoapp.common.seeders;
 
 import com.fabbo.todoapp.TodoappApplication;
 import com.fabbo.todoapp.modules.task.infrastructure.output.repositories.seeders.TaskInfraTestingSeeder;
-import com.fabbo.todoapp.modules.user.infrastructure.seeders.UserInfraTestingSeeder;
+import com.fabbo.todoapp.modules.user.infrastructure.output.seeders.UserInfraTestingSeeder;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

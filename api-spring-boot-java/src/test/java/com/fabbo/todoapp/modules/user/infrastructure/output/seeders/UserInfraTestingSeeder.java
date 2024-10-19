@@ -1,7 +1,7 @@
-package com.fabbo.todoapp.modules.user.infrastructure.seeders;
+package com.fabbo.todoapp.modules.user.infrastructure.output.seeders;
 
 import com.fabbo.todoapp.TodoappApplication;
-import com.fabbo.todoapp.modules.user.infrastructure.persistence.entities.UserJpaEntityFactory;
+import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.entities.UserJpaEntityFactory;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.repositories.UserJpaRepository;
 import lombok.Getter;

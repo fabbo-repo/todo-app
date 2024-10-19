@@ -19,10 +19,10 @@ import java.util.concurrent.CompletableFuture;
 public class S3Config {
 
     @Value("${api.s3.bucket-name}")
-    public String bucketName;
+    private String bucketName;
 
     @Value("${api.s3.region}")
-    public String regionName;
+    private String regionName;
 
     @Value("${api.s3.url}")
     private String url;
@@ -56,6 +56,9 @@ public class S3Config {
         s3Presigner = S3Presigner
                 .builder()
                 .s3Client(s3Client)
+                .credentialsProvider(
+                        getS3CredentialsProvider()
+                )
                 .region(Region.of(regionName))
                 .build();
     }
