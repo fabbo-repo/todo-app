@@ -15,4 +15,6 @@ public class AccountRestResponse {
     private String description;
 
     private String locale;
+
+    private String imageUrl;
 }
