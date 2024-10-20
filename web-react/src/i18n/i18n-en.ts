@@ -19,6 +19,7 @@ export const enTranslations = {
         title: "Login",
         loginBtn: "Login",
         registerLink: "Don't have an account? Register",
+        genericError: "Could not login, something went wrong",
         wrongCredentialsError: "Wrong credentials",
       },
       registerView: {
@@ -26,6 +27,7 @@ export const enTranslations = {
         registerBtn: "Register",
         loginLink: "Already have an account? Sign in",
         passwordMatchError: "Passwords do not match",
+        weakPasswordError: "Weak password",
         registerError: "Account could not be created",
       },
       logout: "Logout",

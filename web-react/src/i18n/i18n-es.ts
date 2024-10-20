@@ -19,6 +19,7 @@ export const esTranslations = {
         title: "Iniciar sesión",
         loginBtn: "Iniciar sesión",
         registerLink: "¿No tienes una cuenta? Regístrate",
+        genericError: "No se pudo iniciar sesión, algo fue mal",
         wrongCredentialsError: "Credenciales inválidas",
       },
       registerView: {
@@ -26,6 +27,7 @@ export const esTranslations = {
         registerBtn: "Registrarse",
         loginLink: "¿Ya tienes una cuenta? Inicia sesión",
         passwordMatchError: "Las contraseñas no coinciden",
+        weakPasswordError: "Contraseña debil",
         registerError: "No se ha podido crear la cuenta",
       },
       logout: "Cerrar Sesión",

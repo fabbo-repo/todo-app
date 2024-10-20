@@ -7,8 +7,9 @@ import { loginWithEmail } from "../../usecases/login-with-email-usecase";
 import { ROOT_ROUTE_PATH } from "../../../task/routes";
 import AppTextInput from "../../../../common/components/app-text-field/app-text-field";
 import "./login-view.css";
-import { useLoginEmailForm } from "../../hooks/use-login-email-form";
+import { useEmailForm } from "../../hooks/use-email-form";
 import { useLoginPasswordForm } from "../../hooks/use-login-password-form";
+import { LoginError, LoginErrorTypeEnum } from "../../data/errors/login-error";
 
 export const LOGIN_REDIRECT_QUERY_PARAM = "redirect";
 
@@ -20,7 +21,7 @@ const LoginView: React.FC = () => {
 
   // Form hooks
   const [email, emailError, handleEmailChange, isEmailValid] =
-    useLoginEmailForm();
+    useEmailForm();
   const [password, passwordError, handlePasswordChange, isPasswordValid] =
     useLoginPasswordForm();
 
@@ -41,15 +42,21 @@ const LoginView: React.FC = () => {
       return;
     }
 
-    loginWithEmail(email, password).then(
-      () => {
-        setFormError(t("auth.loginView.wrongCredentialsError"));
-      },
-      () => {
-        const redirectTo = searchParams.get(LOGIN_REDIRECT_QUERY_PARAM);
-        navigate(redirectTo ?? ROOT_ROUTE_PATH);
-      }
-    );
+    loginWithEmail(email, password).then((result) => {
+      result.fold(
+        (error: LoginError) => {
+          if (error.type === LoginErrorTypeEnum.CREDENTIALS_ERROR) {
+            setFormError(t("auth.loginView.wrongCredentialsError"));
+          } else {
+            setFormError(t("auth.loginView.genericError"));
+          }
+        },
+        () => {
+          const redirectTo = searchParams.get(LOGIN_REDIRECT_QUERY_PARAM);
+          navigate(redirectTo ?? ROOT_ROUTE_PATH);
+        }
+      );
+    });
   };
 
   return (
