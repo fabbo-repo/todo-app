@@ -22,14 +22,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.multipart.MultipartFile;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.time.Duration;
 
 import static com.fabbo.todoapp.common.utils.TestDataUtils.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -62,54 +59,11 @@ class UserImageClientTest extends InfraContainerTestParent {
 
     @BeforeEach
     void setup() {
-        final InputStream targetStream = new ByteArrayInputStream(
-                randomText().getBytes()
-        );
         apiImage = new ApiImage(
                 randomUuid(),
                 "/test/" + randomUuid()
         );
-        imageFile = new MultipartFile() {
-            @Override
-            public String getName() {
-                return "";
-            }
-
-            @Override
-            public String getOriginalFilename() {
-                return "";
-            }
-
-            @Override
-            public String getContentType() {
-                return "";
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public long getSize() {
-                return 0;
-            }
-
-            @Override
-            public byte[] getBytes() throws IOException {
-                return new byte[0];
-            }
-
-            @Override
-            public InputStream getInputStream() throws IOException {
-                return targetStream;
-            }
-
-            @Override
-            public void transferTo(File dest) throws IOException, IllegalStateException {
-                // Ignored
-            }
-        };
+        imageFile = randomMultipartFile();
     }
 
     @Test
@@ -159,4 +113,29 @@ class UserImageClientTest extends InfraContainerTestParent {
 
         assertNotNull(user.getImage().getUrl());
     }
+
+    @Test
+    void givenValidApiImage_whenDeleteImageContent_shouldRemoveImageObject() {
+        final ApiImage newApiImage = new ApiImage(
+                randomUuid(),
+                "/test/" + randomUuid()
+        );
+        // Upload new api image before removal
+        userImageClient.uploadImageContent(
+                newApiImage,
+                imageFile
+        );
+
+        userImageClient.deleteImageContent(
+                newApiImage
+        );
+
+        final boolean exists = objectStorageClient.existsObject(
+                newApiImage.getPath(),
+                s3Config.getBucketName()
+        );
+
+        assertFalse(exists);
+    }
+
 }
