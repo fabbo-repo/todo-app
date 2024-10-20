@@ -1,0 +1,54 @@
+export const enTranslations = {
+  translation: {
+    error: {
+      pageNotFound: "Página no encontrada",
+      goToHome: "Ir a la página principal",
+    },
+    navBar: {
+      listTasks: "List Tasks",
+      viewAccount: "View Account",
+    },
+    auth: {
+      emailLabel: "Email",
+      passwordLabel: "Password",
+      confirmPasswordLabel: "Confirm password",
+      emailRequiredError: "Email is required",
+      emailInvalidError: "Invalid email",
+      passwordRequiredError: "Password is required",
+      loginView: {
+        title: "Login",
+        loginBtn: "Login",
+        registerLink: "Don't have an account? Register",
+        wrongCredentialsError: "Wrong credentials",
+      },
+      registerView: {
+        title: "Create an account",
+        registerBtn: "Register",
+        loginLink: "Already have an account? Sign in",
+        passwordMatchError: "Passwords do not match",
+        registerError: "Account could not be created",
+      },
+      logout: "Logout",
+    },
+    account: {
+      loadingErrorTitle: "Loading error",
+      loadingErrorMessage: "Account data could not be loaded",
+      view: {
+        viewTitle: "Account Data",
+      },
+      editView: {
+        viewTitle: "Account Edit",
+        usernameLabel: "Username",
+        descriptionLabel: "Description",
+        imageLabel: "Image",
+        saveChangesBtn: "Save changes",
+      },
+    },
+    task: {
+      listView: {
+        viewTitle: "My Tasks",
+        noTasks: "There are no pending tasks. Add a new one!",
+      },
+    },
+  },
+};
