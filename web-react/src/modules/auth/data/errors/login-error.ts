@@ -12,6 +12,10 @@ export class LoginError extends AppError {
     return new LoginError(LoginErrorTypeEnum.CREDENTIALS_ERROR);
   }
 
+  static emailNotVerifiedError(): LoginError {
+    return new LoginError(LoginErrorTypeEnum.EMAIL_NOT_VERIFIED_ERROR);
+  }
+
   static unknownError(): LoginError {
     return new LoginError(LoginErrorTypeEnum.UNKNOWN_ERROR);
   }
@@ -19,5 +23,6 @@ export class LoginError extends AppError {
 
 export enum LoginErrorTypeEnum {
   CREDENTIALS_ERROR,
+  EMAIL_NOT_VERIFIED_ERROR,
   UNKNOWN_ERROR,
 }

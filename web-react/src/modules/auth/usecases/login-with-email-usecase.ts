@@ -9,7 +9,16 @@ export const loginWithEmail = async (
   password: string
 ): Promise<Either<LoginError, void>> => {
   try {
-    await signInWithEmailAndPassword(firebaseAuth, email, password);
+    const credentials = await signInWithEmailAndPassword(
+      firebaseAuth,
+      email,
+      password
+    );
+
+    if (!credentials.user.emailVerified) {
+      return Either.left(LoginError.emailNotVerifiedError());
+    }
+
     return Either.right(undefined);
   } catch (error) {
     const firebaseError = error as FirebaseError;

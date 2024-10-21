@@ -1,5 +1,9 @@
 export const esTranslations = {
   translation: {
+    generic: {
+      confirm: "Confirmar",
+      cancel: "Cancelar",
+    },
     error: {
       pageNotFound: "Page not found",
       goToHome: "Go to home page",
@@ -21,6 +25,9 @@ export const esTranslations = {
         registerLink: "¿No tienes una cuenta? Regístrate",
         genericError: "No se pudo iniciar sesión, algo fue mal",
         wrongCredentialsError: "Credenciales inválidas",
+        emailVerificationDialogTitle: "Verificación de correo electrónico",
+        emailVerificationDialogContent:
+          "Se enviará un correo electrónico para verificar tu cuenta. ¿Deseas continuar?",
       },
       registerView: {
         title: "Crear una cuenta",

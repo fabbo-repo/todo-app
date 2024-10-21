@@ -10,6 +10,9 @@ import "./login-view.css";
 import { useEmailForm } from "../../hooks/use-email-form";
 import { useLoginPasswordForm } from "../../hooks/use-login-password-form";
 import { LoginError, LoginErrorTypeEnum } from "../../data/errors/login-error";
+import AppConfirmationDialog from "../../../../common/components/app-confirmation-dialog/app-confirmation-dialog";
+import { sendEmailVerificationByEmail } from "../../usecases/send-email-verification-usecase";
+import { logout } from "../../usecases/logout-usecase";
 
 export const LOGIN_REDIRECT_QUERY_PARAM = "redirect";
 
@@ -19,9 +22,11 @@ const LoginView: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const [isEmailVerificationDialogOpen, setIsEmailVerificationDialogOpen] =
+    useState<boolean>(false);
+
   // Form hooks
-  const [email, emailError, handleEmailChange, isEmailValid] =
-    useEmailForm();
+  const [email, emailError, handleEmailChange, isEmailValid] = useEmailForm();
   const [password, passwordError, handlePasswordChange, isPasswordValid] =
     useLoginPasswordForm();
 
@@ -47,6 +52,10 @@ const LoginView: React.FC = () => {
         (error: LoginError) => {
           if (error.type === LoginErrorTypeEnum.CREDENTIALS_ERROR) {
             setFormError(t("auth.loginView.wrongCredentialsError"));
+          } else if (
+            error.type === LoginErrorTypeEnum.EMAIL_NOT_VERIFIED_ERROR
+          ) {
+            setIsEmailVerificationDialogOpen(true);
           } else {
             setFormError(t("auth.loginView.genericError"));
           }
@@ -89,6 +98,19 @@ const LoginView: React.FC = () => {
         <Link to={REGISTER_ROUTE_PATH} className="login-view-register-link">
           {t("auth.loginView.registerLink")}
         </Link>
+        <AppConfirmationDialog
+          isOpen={isEmailVerificationDialogOpen}
+          title={t("auth.loginView.emailVerificationDialogTitle")}
+          content={t("auth.loginView.emailVerificationDialogContent")}
+          onConfirm={() => {
+            sendEmailVerificationByEmail();
+            setIsEmailVerificationDialogOpen(false);
+          }}
+          onClose={() => {
+            logout();
+            setIsEmailVerificationDialogOpen(false);
+          }}
+        />
       </div>
     </div>
   );

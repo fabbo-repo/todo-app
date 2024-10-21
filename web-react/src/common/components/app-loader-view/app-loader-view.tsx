@@ -1,5 +1,5 @@
 import React from "react";
-import "./app-loader-view.css.css";
+import "./app-loader-view.css";
 
 interface AppLoaderViewProps {
   message?: string;
