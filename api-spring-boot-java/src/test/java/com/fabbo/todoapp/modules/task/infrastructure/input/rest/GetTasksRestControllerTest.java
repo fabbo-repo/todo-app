@@ -101,7 +101,7 @@ class GetTasksRestControllerTest {
                 MockMvcRequestBuilders
                         .get(GET_TASKS_URL)
                         .param(
-                                "page",
+                                "pageNum",
                                 String.valueOf(getTasksProps.getPageNum())
                         )
                         .param(
@@ -147,7 +147,7 @@ class GetTasksRestControllerTest {
                 MockMvcRequestBuilders
                         .get(GET_TASKS_URL)
                         .param(
-                                "page",
+                                "pageNum",
                                 String.valueOf(getTasksProps.getPageNum())
                         )
                         .param(
