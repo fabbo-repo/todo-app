@@ -6,13 +6,11 @@ import { LOGIN_ROUTE_PATH } from "../../routes";
 import AppTextButton from "../../../../common/components/app-text-button/app-text-button";
 import { useTranslation } from "react-i18next";
 import { registerWithEmail } from "../../usecases/register-with-email-usecase";
-import { useEmailForm } from "../../hooks/use-email-form";
-import { useRegisterPasswordForm } from "../../hooks/use-register-password-form";
-import { useRegisterConfirmPasswordForm } from "../../hooks/use-register-confirm-password-form";
 import {
   RegisterError,
   RegisterErrorTypeEnum,
 } from "../../data/errors/register-error";
+import { useRegisterForm } from "../../hooks/use-register-form";
 
 const RegisterView: React.FC = () => {
   const { t } = useTranslation();
@@ -20,44 +18,26 @@ const RegisterView: React.FC = () => {
   const navigate = useNavigate();
 
   // Form hooks
-  const [email, emailError, handleEmailChange, isEmailValid] = useEmailForm();
-  const [password, passwordError, handlePasswordChange, isPasswordValid] =
-    useRegisterPasswordForm();
   const [
+    email,
+    password,
     confirmPassword,
+    emailError,
+    passwordError,
     confirmPasswordError,
+    handleEmailChange,
+    handlePasswordChange,
     handleConfirmPasswordChange,
-    isConfirmPasswordValid,
-  ] = useRegisterConfirmPasswordForm();
+    isFormValid,
+  ] = useRegisterForm();
 
   const [formError, setFormError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if email is valid
-    if (!isEmailValid() && !emailError) {
-      handleEmailChange(email);
-    }
-    // Check if password is valid
-    if (!isPasswordValid() && !passwordError) {
-      handlePasswordChange(password);
-    }
-    // Check if confirm password is valid
-    if (!isConfirmPasswordValid(password) && !confirmPasswordError) {
-      handleConfirmPasswordChange(password, confirmPassword);
-    }
-    if (
-      !isEmailValid() ||
-      !isPasswordValid() ||
-      !isConfirmPasswordValid(password)
-    ) {
+    if (!isFormValid()) {
       return;
-    }
-
-    // Check if email is valid
-    if (!isEmailValid() && !emailError) {
-      handleEmailChange(email);
     }
 
     registerWithEmail(email, password).then((result) => {

@@ -22,9 +22,6 @@ export const loginWithEmail = async (
     return Either.right(undefined);
   } catch (error) {
     const firebaseError = error as FirebaseError;
-    if (firebaseError.code === "auth/invalid-credential") {
-      return Either.left(LoginError.credentialsError());
-    }
-    return Either.left(LoginError.unknownError());
+    return Either.left(LoginError.fromFirebaseCode(firebaseError.code));
   }
 };

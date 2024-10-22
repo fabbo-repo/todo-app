@@ -9,7 +9,7 @@ const AppLoaderView: React.FC<AppLoaderViewProps> = ({ message }) => {
   return (
     <div className="app-loader-view-container">
       <div className="app-loader-view"></div>
-      <p className="app-loader-view-text">${message}</p>
+      <p className="app-loader-view-text">{message}</p>
     </div>
   );
 };

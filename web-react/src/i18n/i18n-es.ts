@@ -9,7 +9,7 @@ export const esTranslations = {
       goToHome: "Go to home page",
     },
     navBar: {
-      listTasks: "Listar Tareas",
+      title: "Todo App",
       viewAccount: "Ver Cuenta",
     },
     auth: {
@@ -54,10 +54,24 @@ export const esTranslations = {
       },
     },
     task: {
+      view: {
+        stateTitle: "Estado",
+        createdAtTitle: "Fecha de creación",
+        deadlineTitle: "Fecha límite",
+        completedContent: "Completada",
+        pendingContent: "Pendiente",
+        taskLoadError: "Tarea no encontrada",
+      },
       listView: {
         viewTitle: "Mis Tareas",
         noTasks: "No hay tareas pendientes. ¡Añade una nueva!",
       },
+      editView: {
+        completedContent: "Completada",
+        editBtn: "Actualizar Tarea",
+      },
+      deleteTaskDialogTitle: "Confirmar eliminación",
+      deleteTaskDialogContent: "¿Quieres eliminar esta tarea?",
     },
   },
 };

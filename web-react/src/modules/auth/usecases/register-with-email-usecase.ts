@@ -13,9 +13,6 @@ export const registerWithEmail = async (
     return Either.right(undefined);
   } catch (error) {
     const firebaseError = error as FirebaseError;
-    if (firebaseError.code === "auth/weak-password") {
-      return Either.left(RegisterError.weakPasswordError());
-    }
-    return Either.left(RegisterError.unknownError());
+    return Either.left(RegisterError.fromFirebaseCode(firebaseError.code));
   }
 };

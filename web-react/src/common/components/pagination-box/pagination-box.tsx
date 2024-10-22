@@ -16,8 +16,8 @@ const PaginationBox: React.FC<PaginationBoxProps> = ({
 }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
-    pageNumbers.push(i);
+  for (let i = 0; i < Math.ceil(totalItems / itemsPerPage); i++) {
+    pageNumbers.push(i + 1);
   }
 
   return (
@@ -27,7 +27,7 @@ const PaginationBox: React.FC<PaginationBoxProps> = ({
           <li key={number}>
             <button
               onClick={() => onNewPage(number)}
-              className={currentPage === number ? "active" : ""}
+              className={currentPage + 1 === number ? "active" : ""}
             >
               {number}
             </button>

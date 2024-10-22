@@ -1,3 +1,4 @@
+import { AuthErrorCodes } from "firebase/auth";
 import { AppError } from "../../../../common/data/errors/app-error";
 
 export class RegisterError extends AppError {
@@ -6,6 +7,13 @@ export class RegisterError extends AppError {
   constructor(type: RegisterErrorTypeEnum) {
     super("");
     this.type = type;
+  }
+
+  static fromFirebaseCode(code: string): RegisterError {
+    if (code === AuthErrorCodes.WEAK_PASSWORD) {
+      return RegisterError.weakPasswordError();
+    }
+    return RegisterError.unknownError();
   }
 
   static weakPasswordError(): RegisterError {

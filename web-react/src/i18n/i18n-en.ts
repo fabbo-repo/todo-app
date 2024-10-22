@@ -9,7 +9,7 @@ export const enTranslations = {
       goToHome: "Ir a la página principal",
     },
     navBar: {
-      listTasks: "List Tasks",
+      title: "Todo App",
       viewAccount: "View Account",
     },
     auth: {
@@ -54,10 +54,24 @@ export const enTranslations = {
       },
     },
     task: {
+      view: {
+        stateTitle: "State",
+        createdAtTitle: "Date of creation",
+        deadlineTitle: "Deadline",
+        completedContent: "Completed",
+        pendingContent: "Pending",
+        taskLoadError: "Task not found",
+      },
       listView: {
         viewTitle: "My Tasks",
         noTasks: "There are no pending tasks. Add a new one!",
       },
+      editView: {
+        completedContent: "Completed",
+        editBtn: "Update Task",
+      },
+      deleteTaskDialogTitle: "Confirm deletion",
+      deleteTaskDialogContent: "Are you sure you want to eliminate this task?",
     },
   },
 };

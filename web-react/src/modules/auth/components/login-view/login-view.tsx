@@ -7,12 +7,11 @@ import { loginWithEmail } from "../../usecases/login-with-email-usecase";
 import { ROOT_ROUTE_PATH } from "../../../task/routes";
 import AppTextInput from "../../../../common/components/app-text-field/app-text-field";
 import "./login-view.css";
-import { useEmailForm } from "../../hooks/use-email-form";
-import { useLoginPasswordForm } from "../../hooks/use-login-password-form";
 import { LoginError, LoginErrorTypeEnum } from "../../data/errors/login-error";
 import AppConfirmationDialog from "../../../../common/components/app-confirmation-dialog/app-confirmation-dialog";
 import { sendEmailVerificationByEmail } from "../../usecases/send-email-verification-usecase";
 import { logout } from "../../usecases/logout-usecase";
+import { useLoginForm } from "../../hooks/use-login-form";
 
 export const LOGIN_REDIRECT_QUERY_PARAM = "redirect";
 
@@ -26,24 +25,22 @@ const LoginView: React.FC = () => {
     useState<boolean>(false);
 
   // Form hooks
-  const [email, emailError, handleEmailChange, isEmailValid] = useEmailForm();
-  const [password, passwordError, handlePasswordChange, isPasswordValid] =
-    useLoginPasswordForm();
+  const [
+    email,
+    password,
+    emailError,
+    passwordError,
+    handleEmailChange,
+    handlePasswordChange,
+    isFormValid,
+  ] = useLoginForm();
 
   const [formError, setFormError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if email is valid
-    if (!isEmailValid() && !emailError) {
-      handleEmailChange(email);
-    }
-    // Check if password is valid
-    if (!isPasswordValid() && !passwordError) {
-      handlePasswordChange(password);
-    }
-    if (!isEmailValid() || !isPasswordValid()) {
+    if (!isFormValid()) {
       return;
     }
 

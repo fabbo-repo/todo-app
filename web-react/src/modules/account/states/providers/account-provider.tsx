@@ -8,11 +8,11 @@ import AppLoaderView from "../../../../common/components/app-loader-view/app-loa
 import AppErrorView from "../../../../common/components/app-error-view/app-error-view";
 import { useTranslation } from "react-i18next";
 
-interface Props {
+interface AccountProviderProps {
   children: React.ReactNode;
 }
 
-export const AccountProvider = ({ children }: Props) => {
+export const AccountProvider = ({ children }: AccountProviderProps) => {
   const { t } = useTranslation();
 
   const [account, setAccount] = useState<AccountEntity | null>(null);
@@ -37,7 +37,7 @@ export const AccountProvider = ({ children }: Props) => {
     return (
       <AppErrorView
         title={t("account.loadingErrorTitle")}
-        message={t("account.loadingErrorTitle")}
+        message={t("account.loadingErrorMessage")}
       />
     );
   }
