@@ -1,7 +1,7 @@
-import React, { HTMLInputTypeAttribute } from "react";
+import React, { FocusEventHandler, HTMLInputTypeAttribute } from "react";
 import "./app-text-field.css";
 
-interface AppTextInputProps {
+interface AppTextFieldProps {
   id?: string;
   text: string;
   type?: HTMLInputTypeAttribute;
@@ -9,9 +9,10 @@ interface AppTextInputProps {
   errorText?: string;
   maxLength?: number;
   isRequired?: boolean;
+  onBlur?: FocusEventHandler | undefined;
 }
 
-const AppTextInput: React.FC<AppTextInputProps> = ({
+const AppTextField: React.FC<AppTextFieldProps> = ({
   id,
   text,
   type,
@@ -19,6 +20,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
   errorText,
   maxLength,
   isRequired,
+  onBlur,
 }) => {
   return (
     <div className="app-text-field">
@@ -30,6 +32,7 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
         className={errorText ? "error" : ""}
         maxLength={maxLength}
         required={isRequired}
+        onBlur={onBlur}
       />
       {errorText && <p className="error">{errorText}</p>}
       {maxLength && (
@@ -45,4 +48,4 @@ const AppTextInput: React.FC<AppTextInputProps> = ({
   );
 };
 
-export default AppTextInput;
+export default AppTextField;

@@ -14,7 +14,9 @@ export function taskResponseRestDtoToEntity(
     title: taskResponse.title,
     description: taskResponse.description,
     isCompleted: taskResponse.isFinished,
-    deadline: new Date(taskResponse.deadline),
+    deadline: taskResponse.deadline
+      ? new Date(taskResponse.deadline)
+      : undefined,
     createdAt: new Date(taskResponse.createdAt),
   };
 }
@@ -25,7 +27,7 @@ export function taskEntityToTaskPostRequestRestDto(
   return {
     title: task.title,
     description: task.description,
-    deadline: task.deadline.toUTCString(),
+    deadline: task.deadline?.toISOString(),
   };
 }
 
@@ -45,6 +47,6 @@ export function taskUpdatePropsToPatchRequestRestDto(
     title: taskUpdateProps.title,
     description: taskUpdateProps.description,
     isFinished: taskUpdateProps.isCompleted,
-    deadline: taskUpdateProps.deadline,
+    deadline: taskUpdateProps.deadline?.toISOString(),
   };
 }

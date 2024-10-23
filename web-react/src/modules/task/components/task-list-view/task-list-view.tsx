@@ -31,7 +31,8 @@ const TaskListView: React.FC = () => {
         }
       );
     });
-  }, [taskPage.pageNumber, taskPage.page, setTaskPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskPage.pageNumber, taskPage.page]);
 
   const onNewTaskPage = (pageNumber: number) => {
     setTaskPage({
@@ -43,28 +44,27 @@ const TaskListView: React.FC = () => {
     return <AppLoaderView />;
   }
   return (
-    <div className="content task-list-view">
-      <div className="task-list-view-header">
-        <h2 className="task-list-view-title">{t("task.listView.viewTitle")}</h2>
+    <div className="content">
+      <div className="task-list-view">
         <Link to={TASK_CREATE_ROUTE_PATH} className="add-task-button">
           <Plus size={24} />
         </Link>
+        {taskPage.page.results.length === 0 ? (
+          <p className="no-tasks">{t("task.listView.noTasks")}</p>
+        ) : (
+          <>
+            {taskPage.page.results.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+            <PaginationBox
+              itemsPerPage={10}
+              totalItems={taskPage.page.totalElements}
+              onNewPage={onNewTaskPage}
+              currentPage={taskPage.page.pageIndex}
+            />
+          </>
+        )}
       </div>
-      {taskPage.page.results.length === 0 ? (
-        <p className="no-tasks">{t("task.listView.noTasks")}</p>
-      ) : (
-        <>
-          {taskPage.page.results.map((task) => (
-            <TaskCard key={task.id} task={task} />
-          ))}
-          <PaginationBox
-            itemsPerPage={10}
-            totalItems={taskPage.page.totalElements}
-            onNewPage={onNewTaskPage}
-            currentPage={taskPage.page.pageIndex}
-          />
-        </>
-      )}
     </div>
   );
 };

@@ -24,7 +24,7 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
   const handleToggleComplete = () => {
     updateTask({
       id: task.id!,
-      isCompleted: true,
+      isCompleted: !task.isCompleted,
     }).then((result) => {
       result.fold(
         () => {},
@@ -66,7 +66,7 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
 
   return (
     <>
-      <div className="content task-card">
+      <div className="task-card">
         <div className="task-card-header">
           <h3
             className={`task-card-title ${task.isCompleted ? "completed" : ""}`}
@@ -90,18 +90,20 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
           </div>
         </div>
         <p className="task-card-description">{task.description}</p>
-        <div className="task-card-deadline">
-          <Calendar size={16} />
-          <span>
-            {t("task.view.deadlineTitle")}: {formatDate(task.deadline)}
-          </span>
-        </div>
+        {task.deadline && (
+          <div className="task-card-deadline">
+            <Calendar size={16} />
+            <span>
+              {t("task.view.deadlineTitle")}: {formatDate(task.deadline)}
+            </span>
+          </div>
+        )}
       </div>
       <AppConfirmationDialog
         isOpen={isDeleteDialogOpen}
         onClose={() => setIsDeleteDialogOpen(false)}
         title={t("task.deleteTaskDialogTitle")}
-        content={t("task.view.deleteTaskDialogContent")}
+        content={t("task.deleteTaskDialogContent")}
         onConfirm={handleConfirmDelete}
       />
     </>

@@ -3,6 +3,6 @@ export interface TaskEntity {
     title: string;
     description: string;
     isCompleted: boolean;
-    deadline: Date;
+    deadline?: Date;
     createdAt?: Date;
 }

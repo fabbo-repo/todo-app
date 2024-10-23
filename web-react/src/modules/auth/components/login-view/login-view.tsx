@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { REGISTER_ROUTE_PATH } from "../../routes";
 import { loginWithEmail } from "../../usecases/login-with-email-usecase";
 import { ROOT_ROUTE_PATH } from "../../../task/routes";
-import AppTextInput from "../../../../common/components/app-text-field/app-text-field";
+import AppTextField from "../../../../common/components/app-text-field/app-text-field";
 import "./login-view.css";
 import { LoginError, LoginErrorTypeEnum } from "../../data/errors/login-error";
 import AppConfirmationDialog from "../../../../common/components/app-confirmation-dialog/app-confirmation-dialog";
@@ -72,7 +72,7 @@ const LoginView: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <div className="login-view-form-group">
             <label htmlFor="email">{t("auth.emailLabel")}</label>
-            <AppTextInput
+            <AppTextField
               id="email"
               text={email}
               errorText={emailError}
@@ -81,7 +81,7 @@ const LoginView: React.FC = () => {
           </div>
           <div className="login-view-form-group">
             <label htmlFor="password">{t("auth.passwordLabel")}</label>
-            <AppTextInput
+            <AppTextField
               id="password"
               type="password"
               text={password}

@@ -38,6 +38,7 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
       <AppErrorView
         title={t("account.loadingErrorTitle")}
         message={t("account.loadingErrorMessage")}
+        showHomeBtn={true}
       />
     );
   }

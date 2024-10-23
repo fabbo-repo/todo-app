@@ -3,6 +3,6 @@ export interface TaskResponseRestDto {
     title: string;
     description: string;
     isFinished: boolean;
-    deadline: string;
+    deadline?: string;
     createdAt: string;
 }

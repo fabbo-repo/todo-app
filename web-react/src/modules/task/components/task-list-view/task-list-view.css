@@ -4,19 +4,6 @@
   gap: 1rem;
 }
 
-.task-list-view-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.task-list-view-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
 .add-task-button {
   position: fixed;
   background-color: var(--primary-color);

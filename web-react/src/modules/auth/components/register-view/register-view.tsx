@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./register-view.css";
-import AppTextInput from "../../../../common/components/app-text-field/app-text-field";
+import AppTextField from "../../../../common/components/app-text-field/app-text-field";
 import { LOGIN_ROUTE_PATH } from "../../routes";
 import AppTextButton from "../../../../common/components/app-text-button/app-text-button";
 import { useTranslation } from "react-i18next";
@@ -63,7 +63,7 @@ const RegisterView: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <div className="register-view-form-group">
             <label htmlFor="email">{t("auth.emailLabel")}</label>
-            <AppTextInput
+            <AppTextField
               id="email"
               text={email}
               onTextChange={(e) => handleEmailChange(e)}
@@ -72,7 +72,7 @@ const RegisterView: React.FC = () => {
           </div>
           <div className="register-view-form-group">
             <label htmlFor="password">{t("auth.passwordLabel")}</label>
-            <AppTextInput
+            <AppTextField
               id="password"
               type="password"
               text={password}
@@ -84,7 +84,7 @@ const RegisterView: React.FC = () => {
             <label htmlFor="confirm-password">
               {t("auth.confirmPasswordLabel")}
             </label>
-            <AppTextInput
+            <AppTextField
               id="confirm-password"
               type="password"
               text={confirmPassword}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { sessionInstance } from "../services/instances";
 import { ROOT_ROUTE_PATH } from "../../modules/task/routes";
@@ -19,9 +19,11 @@ export const AuthRedirectRoute: React.FC<AuthRedirectRouteProps> = ({
 
   const redirectTo = searchParams.get(LOGIN_REDIRECT_QUERY_PARAM);
 
-  firebaseAuth.authStateReady().then(() => {
-    setIsAuthReady(true);
-  });
+  useEffect(() => {
+    firebaseAuth.authStateReady().then(() => {
+      setIsAuthReady(true);
+    });
+  }, []);
 
   if (!isAuthReady) {
     return <AppLoaderView />;

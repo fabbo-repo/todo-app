@@ -6,9 +6,14 @@ import { ROOT_ROUTE_PATH } from "../../../modules/task/routes";
 interface AppErrorViewProps {
   title: string;
   message?: string;
+  showHomeBtn?: boolean;
 }
 
-const AppErrorView: React.FC<AppErrorViewProps> = ({ title, message }) => {
+const AppErrorView: React.FC<AppErrorViewProps> = ({
+  title,
+  message,
+  showHomeBtn,
+}) => {
   const { t } = useTranslation();
 
   const handleGoHome = () => {
@@ -18,10 +23,12 @@ const AppErrorView: React.FC<AppErrorViewProps> = ({ title, message }) => {
   return (
     <div className="app-error-view-container">
       <h2 className="app-error-view-title">{title}</h2>
-      <p className="app-error-view-text">{message}</p>
-      <button onClick={handleGoHome} className="app-error-view-button">
-        {t("error.goToHome")}
-      </button>
+      {message && <p className="app-error-view-text">{message}</p>}
+      {showHomeBtn && (
+        <button onClick={handleGoHome} className="app-error-view-button">
+          {t("error.goToHome")}
+        </button>
+      )}
     </div>
   );
 };

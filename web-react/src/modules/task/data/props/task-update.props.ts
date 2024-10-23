@@ -3,5 +3,5 @@ export interface TaskUpdateProps {
   title?: string;
   description?: string;
   isCompleted?: boolean;
-  deadline?: string;
+  deadline?: Date;
 }
