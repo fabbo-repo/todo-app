@@ -12,6 +12,10 @@ export const enTranslations = {
       title: "Todo App",
       viewAccount: "View Account",
     },
+    locale: {
+      english: "English",
+      spanish: "Spanish",
+    },
     auth: {
       emailLabel: "Email",
       passwordLabel: "Password",
@@ -42,6 +46,7 @@ export const enTranslations = {
     account: {
       loadingErrorTitle: "Loading error",
       loadingErrorMessage: "Account data could not be loaded",
+      localeTitle: "Language",
       view: {
         viewTitle: "Account Data",
       },
@@ -52,6 +57,10 @@ export const enTranslations = {
         imageLabel: "Image",
         saveChangesBtn: "Save changes",
       },
+      usernameRequiredError: "The username is required",
+      usernameMaxError: "The username has a maximum of 20 characters",
+      descriptionMaxError: "The description has a maximum of 300 characters",
+      imageMaxError: "The image should be less than 700 KB",
     },
     task: {
       view: {

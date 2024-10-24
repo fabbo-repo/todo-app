@@ -13,7 +13,7 @@ interface AccountProviderProps {
 }
 
 export const AccountProvider = ({ children }: AccountProviderProps) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [account, setAccount] = useState<AccountEntity | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
@@ -27,10 +27,16 @@ export const AccountProvider = ({ children }: AccountProviderProps) => {
         },
         (account) => {
           setAccount(account);
+
+          if (account.locale) {
+            i18n.changeLanguage(account.locale);
+          }
+
           return Either.right(account);
         }
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isError) {

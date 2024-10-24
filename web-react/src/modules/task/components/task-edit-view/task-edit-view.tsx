@@ -117,8 +117,8 @@ const TaskEditView: React.FC = () => {
   return (
     <div className="content">
       <div className="task-edit-view">
+        <AppBackButton onClick={() => navigate(`${TASK_ROUTE_PATH}/${id}`)} />
         <div className="task-edit-view-header">
-          <AppBackButton onClick={() => navigate(`${TASK_ROUTE_PATH}/${id}`)} />
           <h2 className="task-edit-view-title">
             {t("task.editView.viewTitle")}
           </h2>

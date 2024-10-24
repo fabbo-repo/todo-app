@@ -12,6 +12,10 @@ export const esTranslations = {
       title: "Todo App",
       viewAccount: "Ver Cuenta",
     },
+    locale: {
+      english: "Inglés",
+      spanish: "Español",
+    },
     auth: {
       emailLabel: "Correo electrónico",
       passwordLabel: "Contraseña",
@@ -42,6 +46,7 @@ export const esTranslations = {
     account: {
       loadingErrorTitle: "Error de carga",
       loadingErrorMessage: "No se han podido cargar los datos de la cuenta",
+      localeTitle: "Idioma",
       view: {
         viewTitle: "Account Data",
       },
@@ -52,6 +57,10 @@ export const esTranslations = {
         imageLabel: "Imagen",
         saveChangesBtn: "Guardar cambios",
       },
+      usernameRequiredError: "El nombre de usuario es obligatorio",
+      usernameMaxError: "El nombre de usuario tiene un máximo de 20 caracteres",
+      descriptionMaxError: "La descripción tiene un máximo de 300 caracteres",
+      imageMaxError: "La imagen debe ser menor a 700 KB",
     },
     task: {
       view: {

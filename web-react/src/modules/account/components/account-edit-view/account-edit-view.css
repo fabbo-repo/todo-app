@@ -1,0 +1,21 @@
+.account-edit-view {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.account-edit-view h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.account-edit-view-form-group {
+  margin-bottom: 1rem;
+}
+
+.account-edit-view-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}

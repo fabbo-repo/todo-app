@@ -9,6 +9,7 @@ import { deleteTask } from "../../usecases/delete-task-usecase";
 import { useTranslation } from "react-i18next";
 import { updateTask } from "../../usecases/update-task-usecase";
 import { TASK_ROUTE_PATH } from "../../routes";
+import { AccountContext } from "../../../account/states/contexts/account-context";
 
 interface TaskCardProps {
   task: TaskEntity;
@@ -16,6 +17,8 @@ interface TaskCardProps {
 
 const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
   const { i18n, t } = useTranslation();
+
+  const { account } = useContext(AccountContext);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -57,7 +60,7 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
   };
 
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString(i18n.language, {
+    return new Date(date).toLocaleDateString(account?.locale ?? i18n.language, {
       year: "numeric",
       month: "short",
       day: "numeric",
