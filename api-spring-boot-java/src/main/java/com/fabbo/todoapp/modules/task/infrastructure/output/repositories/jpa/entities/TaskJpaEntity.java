@@ -2,7 +2,6 @@ package com.fabbo.todoapp.modules.task.infrastructure.output.repositories.jpa.en
 
 import com.fabbo.todoapp.common.jpa.entities.AuditableJpaEntity;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,6 +55,6 @@ public class TaskJpaEntity extends AuditableJpaEntity {
     private LocalDateTime deadline;
 
     @JoinColumn(name = OWNER_ID_COL, nullable = false)
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     private UserJpaEntity owner;
 }

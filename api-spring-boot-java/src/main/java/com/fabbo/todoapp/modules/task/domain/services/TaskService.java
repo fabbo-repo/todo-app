@@ -64,7 +64,7 @@ public class TaskService implements GetTaskUseCase, DeleteTaskUseCase,
         final User user = getUserUseCase.getUser(createTaskProps.getGetUserProps());
         final Task task = new Task(
                 createTaskProps.getTitle(),
-                true,
+                false,
                 user.getId()
         );
         task.setDescription(createTaskProps.getDescription());

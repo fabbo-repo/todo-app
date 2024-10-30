@@ -8,12 +8,12 @@ import AppLoaderView from "../../../../common/components/app-loader-view/app-loa
 import AppErrorView from "../../../../common/components/app-error-view/app-error-view";
 import { useTranslation } from "react-i18next";
 
-interface Props {
+interface AccountProviderProps {
   children: React.ReactNode;
 }
 
-export const AccountProvider = ({ children }: Props) => {
-  const { t } = useTranslation();
+export const AccountProvider = ({ children }: AccountProviderProps) => {
+  const { i18n, t } = useTranslation();
 
   const [account, setAccount] = useState<AccountEntity | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
@@ -27,17 +27,24 @@ export const AccountProvider = ({ children }: Props) => {
         },
         (account) => {
           setAccount(account);
+
+          if (account.locale) {
+            i18n.changeLanguage(account.locale);
+          }
+
           return Either.right(account);
         }
       )
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isError) {
     return (
       <AppErrorView
         title={t("account.loadingErrorTitle")}
-        message={t("account.loadingErrorTitle")}
+        message={t("account.loadingErrorMessage")}
+        showHomeBtn={true}
       />
     );
   }

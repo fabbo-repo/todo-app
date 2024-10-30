@@ -18,10 +18,11 @@ public class GetTasksProps extends ApiPageProps {
 
     public GetTasksProps(
             final int pageNum,
+            final int pageSize,
             final GetUserProps getUserProps,
             final FilterTasksProps filter
     ) {
-        super(pageNum, 10);
+        super(pageNum, pageSize);
         this.getUserProps = getUserProps;
         this.filter = filter;
     }

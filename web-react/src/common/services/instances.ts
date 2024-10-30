@@ -25,6 +25,8 @@ firebaseAuth.onAuthStateChanged(function (user) {
     user.getIdToken().then(function (idToken) {
       sessionInstance.accessToken = idToken;
     });
+  } else {
+    sessionInstance.accessToken = null;
   }
 });
 

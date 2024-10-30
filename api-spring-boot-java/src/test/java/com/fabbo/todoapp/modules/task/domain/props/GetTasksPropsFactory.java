@@ -12,6 +12,7 @@ public class GetTasksPropsFactory {
     ) {
         return new GetTasksProps(
                 0,
+                10,
                 getJwtUserProps(userId),
                 FilterTasksPropsFactory.filterTasksProps()
         );
@@ -22,6 +23,7 @@ public class GetTasksPropsFactory {
     ) {
         return new GetTasksProps(
                 0,
+                10,
                 new GetUserProps(jwt),
                 FilterTasksPropsFactory.filterTasksProps()
         );

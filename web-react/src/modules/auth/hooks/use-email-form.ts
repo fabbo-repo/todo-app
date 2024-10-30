@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { isEmail } from "../../../common/utils/form-utils";
 
-export const useLoginEmailForm = (): [
+export const useEmailForm = (): [
   string,
   string,
   (newEmail: string) => void,

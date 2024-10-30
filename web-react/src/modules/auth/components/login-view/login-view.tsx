@@ -5,10 +5,13 @@ import { useTranslation } from "react-i18next";
 import { REGISTER_ROUTE_PATH } from "../../routes";
 import { loginWithEmail } from "../../usecases/login-with-email-usecase";
 import { ROOT_ROUTE_PATH } from "../../../task/routes";
-import AppTextInput from "../../../../common/components/app-text-field/app-text-field";
+import AppTextField from "../../../../common/components/app-text-field/app-text-field";
 import "./login-view.css";
-import { useLoginEmailForm } from "../../hooks/use-login-email-form";
-import { useLoginPasswordForm } from "../../hooks/use-login-password-form";
+import { LoginError, LoginErrorTypeEnum } from "../../data/errors/login-error";
+import AppConfirmationDialog from "../../../../common/components/app-confirmation-dialog/app-confirmation-dialog";
+import { sendEmailVerificationByEmail } from "../../usecases/send-email-verification-usecase";
+import { logout } from "../../usecases/logout-usecase";
+import { useLoginForm } from "../../hooks/use-login-form";
 
 export const LOGIN_REDIRECT_QUERY_PARAM = "redirect";
 
@@ -18,38 +21,48 @@ const LoginView: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
+  const [isEmailVerificationDialogOpen, setIsEmailVerificationDialogOpen] =
+    useState<boolean>(false);
+
   // Form hooks
-  const [email, emailError, handleEmailChange, isEmailValid] =
-    useLoginEmailForm();
-  const [password, passwordError, handlePasswordChange, isPasswordValid] =
-    useLoginPasswordForm();
+  const [
+    email,
+    password,
+    emailError,
+    passwordError,
+    handleEmailChange,
+    handlePasswordChange,
+    isFormValid,
+  ] = useLoginForm();
 
   const [formError, setFormError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check if email is valid
-    if (!isEmailValid() && !emailError) {
-      handleEmailChange(email);
-    }
-    // Check if password is valid
-    if (!isPasswordValid() && !passwordError) {
-      handlePasswordChange(password);
-    }
-    if (!isEmailValid() || !isPasswordValid()) {
+    if (!isFormValid()) {
       return;
     }
 
-    loginWithEmail(email, password).then(
-      () => {
-        setFormError(t("auth.loginView.wrongCredentialsError"));
-      },
-      () => {
-        const redirectTo = searchParams.get(LOGIN_REDIRECT_QUERY_PARAM);
-        navigate(redirectTo ?? ROOT_ROUTE_PATH);
-      }
-    );
+    loginWithEmail(email, password).then((result) => {
+      result.fold(
+        (error: LoginError) => {
+          if (error.type === LoginErrorTypeEnum.CREDENTIALS_ERROR) {
+            setFormError(t("auth.loginView.wrongCredentialsError"));
+          } else if (
+            error.type === LoginErrorTypeEnum.EMAIL_NOT_VERIFIED_ERROR
+          ) {
+            setIsEmailVerificationDialogOpen(true);
+          } else {
+            setFormError(t("auth.loginView.genericError"));
+          }
+        },
+        () => {
+          const redirectTo = searchParams.get(LOGIN_REDIRECT_QUERY_PARAM);
+          navigate(redirectTo ?? ROOT_ROUTE_PATH);
+        }
+      );
+    });
   };
 
   return (
@@ -59,7 +72,7 @@ const LoginView: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <div className="login-view-form-group">
             <label htmlFor="email">{t("auth.emailLabel")}</label>
-            <AppTextInput
+            <AppTextField
               id="email"
               text={email}
               errorText={emailError}
@@ -68,7 +81,7 @@ const LoginView: React.FC = () => {
           </div>
           <div className="login-view-form-group">
             <label htmlFor="password">{t("auth.passwordLabel")}</label>
-            <AppTextInput
+            <AppTextField
               id="password"
               type="password"
               text={password}
@@ -82,6 +95,19 @@ const LoginView: React.FC = () => {
         <Link to={REGISTER_ROUTE_PATH} className="login-view-register-link">
           {t("auth.loginView.registerLink")}
         </Link>
+        <AppConfirmationDialog
+          isOpen={isEmailVerificationDialogOpen}
+          title={t("auth.loginView.emailVerificationDialogTitle")}
+          content={t("auth.loginView.emailVerificationDialogContent")}
+          onConfirm={() => {
+            sendEmailVerificationByEmail();
+            setIsEmailVerificationDialogOpen(false);
+          }}
+          onClose={() => {
+            logout();
+            setIsEmailVerificationDialogOpen(false);
+          }}
+        />
       </div>
     </div>
   );

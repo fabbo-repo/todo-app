@@ -5,11 +5,13 @@ import "./image-container.css";
 interface ImageContainerProps {
   initialImageUrl: string;
   onImageChange?: (newImage: File) => void;
+  errorText?: string;
 }
 
 const ImageContainer: React.FC<ImageContainerProps> = ({
   initialImageUrl,
   onImageChange,
+  errorText,
 }) => {
   const [imageUrl, setImageUrl] = useState(initialImageUrl);
 
@@ -43,6 +45,7 @@ const ImageContainer: React.FC<ImageContainerProps> = ({
           <Camera size={24} />
         </div>
       </div>
+      {errorText && <p className="error">{errorText}</p>}
       {onImageChange && (
         <input
           type="file"
