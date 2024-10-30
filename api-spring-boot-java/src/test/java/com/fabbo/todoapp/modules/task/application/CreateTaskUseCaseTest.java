@@ -55,7 +55,7 @@ class CreateTaskUseCaseTest {
 
         final Task expectedTask = new Task(
                 createTaskProps.getTitle(),
-                true,
+                false,
                 userId
         );
         expectedTask.setDescription(
