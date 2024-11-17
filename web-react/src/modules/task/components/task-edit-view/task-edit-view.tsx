@@ -118,11 +118,7 @@ const TaskEditView: React.FC = () => {
     <div className="content">
       <div className="task-edit-view">
         <AppBackButton onClick={() => navigate(`${TASK_ROUTE_PATH}/${id}`)} />
-        <div className="task-edit-view-header">
-          <h2 className="task-edit-view-title">
-            {t("task.editView.viewTitle")}
-          </h2>
-        </div>
+        <div className="task-edit-view-header"/>
         <form
           onSubmit={handleSubmit}
           className="task-edit-view-form"

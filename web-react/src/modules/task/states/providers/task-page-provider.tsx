@@ -9,6 +9,8 @@ interface TaskPageProviderProps {
 
 export interface TaskPageState {
   pageNumber: number;
+  // Previous page state used to keep page data while fetching new page
+  prevPage?: PageEntity<TaskEntity>;
   page?: PageEntity<TaskEntity>;
 }
 

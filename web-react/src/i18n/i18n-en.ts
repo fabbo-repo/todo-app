@@ -51,7 +51,6 @@ export const enTranslations = {
         viewTitle: "Account Data",
       },
       editView: {
-        viewTitle: "Account Edit",
         usernameLabel: "Username",
         descriptionLabel: "Description",
         imageLabel: "Image",
@@ -73,7 +72,6 @@ export const enTranslations = {
         noTasks: "There are no pending tasks. Add a new one!",
       },
       editView: {
-        viewTitle: "Edit Task",
         completedContent: "Completed",
         editBtn: "Update Task",
         genericError: "Could not update task, something went wrong",

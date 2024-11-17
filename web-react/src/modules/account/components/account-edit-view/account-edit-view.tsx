@@ -130,7 +130,7 @@ const AccountEditView: React.FC = () => {
     <div className="content">
       <div className="account-edit-view">
         <AppBackButton onClick={() => navigate(ACCOUNT_ROUTE_PATH)} />
-        <h2>{t("account.editView.viewTitle")}</h2>
+        <h2></h2>
         <form onSubmit={handleSubmit}>
           <div className="account-edit-view-form-group">
             <label>{t("account.editView.imageLabel")}</label>

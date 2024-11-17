@@ -38,7 +38,6 @@ export const AuthProtectedRoute: React.FC<AuthProtectedRouteProps> = ({
     );
   } else if (
     sessionInstance.isLoggedIn &&
-    firebaseAuth.currentUser?.providerId === "password" &&
     !firebaseAuth.currentUser?.emailVerified
   ) {
     return (

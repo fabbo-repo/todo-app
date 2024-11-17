@@ -34,6 +34,7 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
         () => {
           setTaskPage({
             pageNumber: taskPage.pageNumber,
+            prevPage: taskPage.page,
           });
         }
       );
@@ -51,6 +52,7 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
         () => {
           setTaskPage({
             pageNumber: taskPage.pageNumber,
+            prevPage: taskPage.page,
           });
         }
       );
@@ -84,9 +86,11 @@ const TodoItem: React.FC<TaskCardProps> = ({ task }) => {
                 <Circle size={20} />
               )}
             </button>
-            <Link to={`${TASK_ROUTE_PATH}/${task.id}`}>
-              <Eye size={20} />
-            </Link>
+            <button>
+              <Link to={`${TASK_ROUTE_PATH}/${task.id}`}>
+                <Eye size={20} />
+              </Link>
+            </button>
             <button onClick={handleDeleteClick}>
               <Trash2 size={20} />
             </button>

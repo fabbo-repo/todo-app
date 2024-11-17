@@ -40,27 +40,30 @@ const TaskListView: React.FC = () => {
     });
   };
 
-  if (!taskPage.page) {
+  if (!taskPage.page && !taskPage.prevPage) {
     return <AppLoaderView />;
   }
+
+  const taskPageData = taskPage.page ?? taskPage.prevPage;
+
   return (
     <div className="content">
       <div className="task-list-view">
         <Link to={TASK_CREATE_ROUTE_PATH} className="add-task-button">
           <Plus size={24} />
         </Link>
-        {taskPage.page.results.length === 0 ? (
+        {taskPageData!.results.length === 0 ? (
           <p className="no-tasks">{t("task.listView.noTasks")}</p>
         ) : (
           <>
-            {taskPage.page.results.map((task) => (
+            {taskPageData!.results.map((task) => (
               <TaskCard key={task.id} task={task} />
             ))}
             <PaginationBox
               itemsPerPage={10}
-              totalItems={taskPage.page.totalElements}
+              totalItems={taskPageData!.totalElements}
               onNewPage={onNewTaskPage}
-              currentPage={taskPage.page.pageIndex}
+              currentPage={taskPageData!.pageIndex}
             />
           </>
         )}

@@ -82,9 +82,10 @@ const TaskCreateView: React.FC = () => {
 
   return (
     <div className="content">
-      <AppBackButton onClick={() => navigate(ROOT_ROUTE_PATH)} />
       <form onSubmit={handleSubmit} className="task-create-view" noValidate>
+        <AppBackButton onClick={() => navigate(ROOT_ROUTE_PATH)} />
         <div className="task-create-view-form-group">
+          <h2></h2>
           <label htmlFor="title">{t("task.titleTitle")}</label>
           <AppTextField
             id="title"

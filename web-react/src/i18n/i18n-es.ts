@@ -51,7 +51,6 @@ export const esTranslations = {
         viewTitle: "Account Data",
       },
       editView: {
-        viewTitle: "Editar Cuenta",
         usernameLabel: "Nombre de Usuario",
         descriptionLabel: "Descripción",
         imageLabel: "Imagen",
