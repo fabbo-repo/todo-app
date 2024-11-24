@@ -48,7 +48,7 @@ export const esTranslations = {
       loadingErrorMessage: "No se han podido cargar los datos de la cuenta",
       localeTitle: "Idioma",
       view: {
-        viewTitle: "Account Data",
+        viewTitle: "Información de Usuario",
       },
       editView: {
         usernameLabel: "Nombre de Usuario",
