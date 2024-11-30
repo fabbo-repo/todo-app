@@ -59,7 +59,9 @@ public class S3Config {
                 .credentialsProvider(
                         getS3CredentialsProvider()
                 )
-                .endpointOverride(getS3Endpoint().url())
+                .endpointOverride(
+                        URI.create(url)
+                )
                 .region(Region.of(regionName))
                 .build();
     }
