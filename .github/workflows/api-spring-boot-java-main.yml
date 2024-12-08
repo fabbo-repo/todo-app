@@ -1,4 +1,4 @@
-name: Spring Boot Java API Test, Build and Upload to Docker Hub
+name: Spring Boot Java API Build, Test and Upload to Docker Hub
 
 on:
   push:
@@ -25,12 +25,12 @@ jobs:
         run: mvn dependency:resolve
         working-directory: ./api-spring-boot-java
 
-      - name: Run tests
-        run: mvn test
-        working-directory: ./api-spring-boot-java
-
       - name: Build
         run: mvn package -DskipTests
+        working-directory: ./api-spring-boot-java
+
+      - name: Run tests
+        run: mvn test
         working-directory: ./api-spring-boot-java
 
       - name: Login to Docker Hub

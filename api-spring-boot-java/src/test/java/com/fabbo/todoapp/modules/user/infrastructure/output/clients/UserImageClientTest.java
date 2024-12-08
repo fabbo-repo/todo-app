@@ -94,7 +94,7 @@ class UserImageClientTest extends InfraContainerTestParent {
                                 0,
                                 userInfraTestingSeeder
                                         .getUserJpaEntities()
-                                        .size()
+                                        .size() - 1
                         )
                 );
         final User user = USER_JPA_MAPPER.userEntityToAccount(

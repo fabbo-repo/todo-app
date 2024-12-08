@@ -1,4 +1,4 @@
-name: Spring Boot Java API Test and Build 
+name: Spring Boot Java API Build and Test  
 
 on:
   push:
@@ -25,12 +25,12 @@ jobs:
         run: mvn dependency:resolve
         working-directory: ./api-spring-boot-java
 
-      - name: Run tests
-        run: mvn test
-        working-directory: ./api-spring-boot-java
-
       - name: Build
         run: mvn package -DskipTests
+        working-directory: ./api-spring-boot-java
+
+      - name: Run tests
+        run: mvn test
         working-directory: ./api-spring-boot-java
 
       - name: Check build Docker Image
