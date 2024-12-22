@@ -17,8 +17,8 @@ service:
 # Configmap definition
 configmapData:
   fireabse-project-id: ''
-  cors-allowed-origins: '*'
-  cors-allowed-origin-patterns: ''
+  cors-allowed-origins: ''
+  cors-allowed-origin-patterns: '*'
   cors-allowed-methods: 'GET,POST,PATCH,PUT,DELETE,OPTIONS,HEAD'
   cors-allowed-headers: 'Authorization,Content-Type'
   cors-allow-credentials: 'true'

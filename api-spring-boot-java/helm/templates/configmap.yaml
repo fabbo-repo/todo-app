@@ -7,5 +7,5 @@ metadata:
     app: todo-app-api
 data:
   {{- range $key, $value := .Values.configmapData }}
-    {{ $key }}: {{ $value | b64enc }}
+    {{ $key }}: {{ $value }}
   {{- end }}
