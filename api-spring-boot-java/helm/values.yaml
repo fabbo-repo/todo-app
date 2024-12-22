@@ -1,0 +1,33 @@
+# Default values for todo-app-api.
+
+replicaCount: 1
+
+# This sets the container image
+image:
+  repository: fabbo/todo-app-api
+  pullPolicy: IfNotPresent
+  tag: "1.0.0-sprb-j"
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 32080
+
+# Configmap definition
+configmapData:
+  fireabse-project-id: ''
+  cors-allowed-origins: '*'
+  cors-allowed-origin-patterns: ''
+  cors-allowed-methods: 'GET,POST,PATCH,PUT,DELETE,OPTIONS,HEAD'
+  cors-allowed-headers: 'Authorization,Content-Type'
+  cors-allow-credentials: 'true'
+  s3-bucket-name: ''
+  s3-region: 'us-west-2'
+
+# Secret definition (without base64 encoding)
+secretData:
+  pg-database-url: ''
+  s3-url: ''
+  s3-access-key: ''
+  s3-secret-key: ''

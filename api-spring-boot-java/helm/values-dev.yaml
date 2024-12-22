@@ -1,0 +1,28 @@
+# Default values for todo-app-api.
+
+replicaCount: 1
+
+# This sets the container image
+image:
+  repository: fabbo/todo-app-api
+  pullPolicy: IfNotPresent
+  tag: "1.0.0-sprb-j"
+
+service:
+  type: NodePort
+  port: 8080
+  targetPort: 8080
+  nodePort: 32080
+
+# Configmap definition
+configmapData:
+  fireabse-project-id: 'todo-app-dev-e57e7'
+  s3-bucket-name: 'todo-app-dev-bucket'
+  s3-region: 'us-west-2'
+
+# Secret definition (without base64 encoding)
+secretData:
+  pg-database-url: 'jdbc:postgresql://ep-lively-limit-a2kiyeg9.eu-central-1.aws.neon.tech/todo-app-db?user=copeo-dev-db_owner&password=fpxNk09eQvTC&sslmode=require'
+  s3-url: 'https://m1b3.par5.idrivee2-9.com'
+  s3-access-key: 'jlJKB0e8kL9MXvPkWHxO'
+  s3-secret-key: 'f7pLS83McW2ZWIisBfaYCLxuhzi7SvOCvFBMf2ix'

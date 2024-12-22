@@ -8,8 +8,13 @@ spring:
     initialization-mode: never
     driver-class-name: org.postgresql.Driver
     url: ${POSTGRES_DB_URL}
-    username: ${POSTGRES_DB_USER}
-    password: ${POSTGRES_DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      auto-commit: true
 
   jpa:
     show-sql: false

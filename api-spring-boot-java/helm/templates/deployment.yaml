@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-api-deployment
+  namespace: todo-app-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: todo-app-api
+  template:
+    metadata:
+      labels:
+        app: todo-app-api
+    spec:
+      containers:
+        - name: todo-app-api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /api/actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 45
+            timeoutSeconds: 15
+            periodSeconds: 15
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /api/actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            timeoutSeconds: 15
+            periodSeconds: 15
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          env:
+            - name: POSTGRES_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-api-secret
+                  key: pg-database-url
+            - name: FIREBASE_PROJECT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: fireabse-project-id
+            - name: CORS_ALLOWED_ORIGINS
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: cors-allowed-origins
+                  optional: true
+            - name: CORS_ALLOWED_ORIGIN_PATTERNS
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: cors-allowed-origin-patterns
+                  optional: true
+            - name: CORS_ALLOWED_METHODS
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: cors-allowed-methods
+                  optional: true
+            - name: CORS_ALLOWED_HEADERS
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: cors-allowed-headers
+                  optional: true
+            - name: CORS_ALLOW_CREDENTIALS
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: cors-allow-credentials
+                  optional: true
+            - name: S3_BUCKET_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: s3-bucket-name
+            - name: S3_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-api-configmap
+                  key: s3-region
+                  optional: true
+            - name: S3_URL
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-api-secret
+                  key: s3-url
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-api-secret
+                  key: s3-access-key
+            - name: S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: todo-app-api-secret
+                  key: s3-secret-key
