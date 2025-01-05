@@ -7,5 +7,5 @@ metadata:
     app: todo-app-api
 data:
   {{- range $key, $value := .Values.configmapData }}
-    {{ $key }}: {{ $value }}
+    {{ $key }}: {{ $value | quote }}
   {{- end }}
