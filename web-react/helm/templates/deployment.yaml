@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-web-deployment
+  namespace: todo-app-web
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: todo-app-web
+  template:
+    metadata:
+      labels:
+        app: todo-app-web
+    spec:
+      containers:
+        - name: todo-app-web
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 20
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          env:
+            - name: TASK_API_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: task-api-base-url
+            - name: FIREBASE_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-api-key
+            - name: FIREBASE_AUTH_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-auth-domain
+            - name: FIREBASE_PROJECT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-project-id
+            - name: FIREBASE_STORAGE_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-storage-bucket
+            - name: FIREBASE_SENDER_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-sender-id
+            - name: FIREBASE_APP_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-app-id
+            - name: FIREBASE_MEASUREMENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-app-web-configmap
+                  key: firebase-measurement-id

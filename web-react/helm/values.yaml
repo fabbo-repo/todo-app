@@ -1,0 +1,26 @@
+# Default values for todo-app-web.
+
+replicaCount: 1
+
+# This sets the container image
+image:
+  repository: fabbo/todo-app-web
+  pullPolicy: IfNotPresent
+  tag: "1.0.0-react"
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+
+# Configmap definition
+configmapData:
+  task-api-base-url: ''
+  firebase-api-key: ''
+  firebase-auth-domain: ''
+  firebase-project-id: ''
+  firebase-storage-bucket: ''
+  firebase-sender-id: ''
+  firebase-app-id: ''
+  firebase-measurement-id: ''
