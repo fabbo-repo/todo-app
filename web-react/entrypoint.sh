@@ -8,8 +8,8 @@ WEB_FILES_DIR="/usr/share/nginx/html"
 
 # List of environment variables to replace in the web files
 ENV_VARS="TASK_API_BASE_URL FIREBASE_API_KEY FIREBASE_AUTH_DOMAIN \
-    FIREBASE_PROJECT_ID FIREBASE_STORAGE_BUCKET \
-    FIREBASE_SENDER_ID FIREBASE_APP_ID FIREBASE_MEASUREMENT_ID"
+FIREBASE_PROJECT_ID FIREBASE_STORAGE_BUCKET \
+FIREBASE_SENDER_ID FIREBASE_APP_ID FIREBASE_MEASUREMENT_ID"
 
 # Find all JavaScript files in the web files directory
 find "$WEB_FILES_DIR" -name "*.js" | while read -r WEB_FILE; do
