@@ -61,30 +61,18 @@ public class User {
             setLocale(updateUserDto.getLocale());
         }
         if (updateUserDto.getImageFile() != null) {
-            if (getImage() == null || getImage().getId() == null) {
-                final UUID imageId = UUID.randomUUID();
-                final ApiImage userImage = new ApiImage(
-                        imageId,
-                        ImageUtils.generatePath(
-                                IMG_PREFIX_PATH
-                                + "/"
-                                + getId(),
-                                imageId.toString(),
-                                updateUserDto.getImageFile()
-                        )
-                );
-                setImage(userImage);
-            } else {
-                getImage().setPath(
-                        ImageUtils.generatePath(
-                                IMG_PREFIX_PATH
-                                + "/"
-                                + getId(),
-                                getImage().getId().toString(),
-                                updateUserDto.getImageFile()
-                        )
-                );
-            }
+            final UUID imageId = UUID.randomUUID();
+            final ApiImage userImage = new ApiImage(
+                    imageId,
+                    ImageUtils.generatePath(
+                            IMG_PREFIX_PATH
+                                    + "/"
+                                    + getId(),
+                            imageId.toString(),
+                            updateUserDto.getImageFile()
+                    )
+            );
+            setImage(userImage);
         }
     }
 
@@ -95,7 +83,7 @@ public class User {
                 .getToken()
                 .getClaims();
         if (claims.containsKey(EMAIL_VERIFIED_CLAIM)
-            && !(boolean) claims.get(EMAIL_VERIFIED_CLAIM)) {
+                && !(boolean) claims.get(EMAIL_VERIFIED_CLAIM)) {
             throw new AccountEmailNotVerifiedException();
         }
     }

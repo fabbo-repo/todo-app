@@ -61,6 +61,9 @@ public class UserService implements GetUserUseCase, UpdateUserUseCase {
                         && storedUser.getImage() != null
                         && storedUser.getImage().getPath() != null
         ) {
+            userImageRepository.deleteByUserId(
+                    storedUser.getId()
+            );
             userImageClient.deleteImageContent(
                     storedUser.getImage()
             );

@@ -6,12 +6,17 @@ import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.ent
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.entities.UserJpaEntity;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.mappers.UserImageJpaMapper;
 import com.fabbo.todoapp.modules.user.infrastructure.output.repositories.jpa.repositories.UserImageJpaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,11 +27,8 @@ public class UserImageRepositoryImpl implements UserImageRepository {
 
     private static final UserImageJpaMapper USER_IMAGE_JPA_MAPPER = UserImageJpaMapper.INSTANCE;
 
-    @Override
-    public boolean existsById(final UUID id) {
-        return userImageJpaRepository
-                .existsById(id);
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Optional<ApiImage> findByUserId(
@@ -49,5 +51,32 @@ public class UserImageRepositoryImpl implements UserImageRepository {
                         )
                 );
         return USER_IMAGE_JPA_MAPPER.userImageEntityToApiImage(userImageJpaEntity);
+    }
+
+    @Override
+    public void deleteByUserId(final String userId) {
+        final CriteriaBuilder criteriaBuilder = entityManager
+                .getCriteriaBuilder();
+
+        final CriteriaDelete<UserImageJpaEntity> criteriaDelete = criteriaBuilder
+                .createCriteriaDelete(UserImageJpaEntity.class);
+
+        final Root<UserImageJpaEntity> root = criteriaDelete
+                .from(UserImageJpaEntity.class);
+
+        final Predicate predicate = criteriaBuilder
+                .equal(
+                        root.get(UserImageJpaEntity.USER_FIELD)
+                                .get(UserJpaEntity.ID_FIELD),
+                        userId
+                );
+
+        criteriaDelete.where(
+                predicate
+        );
+
+        entityManager
+                .createQuery(criteriaDelete)
+                .executeUpdate();
     }
 }
