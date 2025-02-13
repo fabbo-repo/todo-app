@@ -4,17 +4,6 @@
 
 [Swagger UI](http://localhost:8080/api/swagger-ui/index.html)
 
-## Error Codes
-
-| Code | Description                  |
-|------|------------------------------|
-| 1    | "Account email not verified" |
-| 20   | "User not found"             |
-| 100  | "Task not found"             |
-
-> **1 to 99** User related errors \
-> **100 to 199** Task related errors
-
 ## Environment Variables
 
 | Name                         | Description                                              |
@@ -33,3 +22,14 @@
 | S3_URL                       | S3 url                                                   |
 | S3_ACCESS_KEY                | S3 access key                                            |
 | S3_SECRET_KEY                | S3 secret key                                            |
+
+## Error Codes
+
+| Code | Description                  |
+|------|------------------------------|
+| 1    | "Account email not verified" |
+| 20   | "User not found"             |
+| 100  | "Task not found"             |
+
+> **1 to 99** User related errors \
+> **100 to 199** Task related errors
